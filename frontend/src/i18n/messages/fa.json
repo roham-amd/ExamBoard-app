@@ -1,0 +1,55 @@
+{
+  "layout": {
+    "appName": "سامانه برنامه‌ریزی امتحانات",
+    "sidebar": {
+      "title": "بخش‌ها",
+      "links": {
+        "dashboard": "داشبورد",
+        "timetable": "برنامهٔ عمومی"
+      }
+    },
+    "topbar": {
+      "welcome": "سلام، {name}!",
+      "subtitle": "امروز {date}",
+      "sampleName": "کارشناس آموزش",
+      "actions": {
+        "openDialog": "نمایش گفت‌وگو",
+        "showToast": "نمایش اعلان"
+      }
+    }
+  },
+  "dashboard": {
+    "title": "داشبورد",
+    "description": "نمای کلی از وضعیت برگزاری امتحانات و کارهای اخیر.",
+    "cards": {
+      "upcoming": {
+        "title": "امتحانات آینده",
+        "value": "۳ مورد برنامه‌ریزی شده"
+      },
+      "published": {
+        "title": "برنامه‌های منتشر شده",
+        "value": "۲ برنامهٔ فعال"
+      },
+      "pending": {
+        "title": "در انتظار تأیید",
+        "value": "۴ درخواست"
+      }
+    }
+  },
+  "timetable": {
+    "title": "برنامهٔ عمومی",
+    "description": "جدول زمان‌بندی منتشر شده برای دانشجویان.",
+    "empty": "هنوز داده‌ای ثبت نشده است."
+  },
+  "demo": {
+    "dialogTitle": "نمونهٔ گفت‌وگو",
+    "dialogDescription": "این یک نمونهٔ تم تاریک/روشن با پشتیبانی کامل از راست‌به‌چپ است.",
+    "dialogConfirm": "تأیید",
+    "dialogCancel": "انصراف",
+    "toastTitle": "اعلان نمونه",
+    "toastDescription": "اعلان‌ها نیز راست‌به‌چپ نمایش داده می‌شوند.",
+    "gridHeading": "الگوی رابط کاربری",
+    "gridBody": "از اینجا می‌توانید بلوک‌های داشبورد را بسازید.",
+    "gridFooter": "آخرین بروزرسانی: {date}"
+  }
+}
