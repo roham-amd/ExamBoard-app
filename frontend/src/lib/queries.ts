@@ -16,6 +16,7 @@ import type {
   BlackoutQueryParams,
   ExamListResponse,
   ExamQueryParams,
+  ExamOwnerListResponse,
   HolidayListResponse,
   HolidayQueryParams,
   PublicExamListResponse,
@@ -99,3 +100,13 @@ export const usePublicExamsQuery = createListQuery<
   PublicExamQueryParams,
   ReturnType<typeof queryKeys.publicExams.list>
 >('/public/exams/', queryKeys.publicExams.list)
+
+export const useExamOwnersQuery = () =>
+  useQuery({
+    queryKey: queryKeys.exams.owners(),
+    queryFn: async () => {
+      const { data } = await api.get<ExamOwnerListResponse>('/exams/owners/')
+      return data
+    },
+    staleTime: 5 * 60_000
+  })
