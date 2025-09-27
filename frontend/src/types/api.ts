@@ -1,0 +1,182 @@
+export interface PaginatedResponse<T> {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: T[];
+}
+
+export interface PaginationParams {
+  page?: number;
+  page_size?: number;
+  search?: string;
+  ordering?: string;
+}
+
+export interface Term {
+  id: number;
+  name: string;
+  slug: string;
+  description?: string | null;
+  starts_at: string;
+  ends_at: string;
+  is_active: boolean;
+  published_at?: string | null;
+}
+
+export interface TermQueryParams extends PaginationParams {
+  is_active?: boolean;
+}
+
+export interface Room {
+  id: number;
+  name: string;
+  capacity: number;
+  code?: string | null;
+  campus?: string | null;
+  description?: string | null;
+}
+
+export interface RoomQueryParams extends PaginationParams {
+  campus?: string;
+}
+
+export interface ExamOwnerOption {
+  id: number;
+  full_name: string;
+}
+
+export interface Exam {
+  id: number;
+  title: string;
+  course_code: string;
+  owner: number;
+  owner_name: string;
+  expected_students: number;
+  duration_minutes: number;
+  term: number;
+  term_name: string;
+  status: "draft" | "scheduled" | "published";
+  notes?: string | null;
+}
+
+export interface ExamQueryParams extends PaginationParams {
+  term?: number;
+  status?: Exam["status"];
+  owner?: number;
+}
+
+export interface AllocationRoomSummary {
+  id: number;
+  name: string;
+  code?: string | null;
+}
+
+export interface Allocation {
+  id: number;
+  exam: number;
+  exam_title: string;
+  rooms: AllocationRoomSummary[];
+  starts_at: string;
+  ends_at: string;
+  allocated_seats: number;
+  notes?: string | null;
+}
+
+export interface AllocationQueryParams extends PaginationParams {
+  term?: number;
+  exam?: number;
+  room?: number;
+  from?: string;
+  to?: string;
+  date_from?: string;
+  date_to?: string;
+}
+
+export interface Blackout {
+  id: number;
+  room: number | null;
+  room_name?: string | null;
+  all_day: boolean;
+  starts_at: string;
+  ends_at: string;
+  reason: string;
+}
+
+export interface BlackoutQueryParams extends PaginationParams {
+  room?: number;
+  from?: string;
+  to?: string;
+}
+
+export interface Holiday {
+  id: number;
+  title: string;
+  starts_at: string;
+  ends_at: string;
+  all_day: boolean;
+  room: number | null;
+  room_name?: string | null;
+  description?: string | null;
+}
+
+export interface HolidayQueryParams extends PaginationParams {
+  year?: number;
+}
+
+export interface PublicExam {
+  id: number;
+  course_code: string;
+  course_title: string;
+  starts_at: string;
+  location: string;
+}
+
+export interface PublicExamQueryParams extends PaginationParams {
+  term?: number;
+  date?: string;
+}
+
+export type TermListResponse = PaginatedResponse<Term>;
+export type RoomListResponse = PaginatedResponse<Room>;
+export type ExamListResponse = PaginatedResponse<Exam>;
+export type AllocationListResponse = PaginatedResponse<Allocation>;
+export type BlackoutListResponse = PaginatedResponse<Blackout>;
+export type HolidayListResponse = PaginatedResponse<Holiday>;
+export type PublicExamListResponse = PaginatedResponse<PublicExam>;
+export type ExamOwnerListResponse = ExamOwnerOption[];
+
+export interface PublicTimetableTerm {
+  id: number;
+  name: string;
+  slug: string;
+  starts_at: string;
+  ends_at: string;
+  published_at?: string | null;
+}
+
+export interface PublicTimetableRoom {
+  id: number;
+  name: string;
+  code: string;
+  capacity: number;
+  campus?: string | null;
+}
+
+export interface PublicTimetableAllocation {
+  id: number;
+  room_id: number;
+  exam_id: number;
+  exam_title: string;
+  course_code: string;
+  starts_at: string;
+  ends_at: string;
+  allocated_seats: number;
+  notes?: string | null;
+}
+
+export interface PublicTimetableResponse {
+  term: PublicTimetableTerm;
+  rooms: PublicTimetableRoom[];
+  allocations: PublicTimetableAllocation[];
+  generated_at?: string;
+}

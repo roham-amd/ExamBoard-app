@@ -1,0 +1,25 @@
+{
+  "extends": ["next/core-web-vitals"],
+  "overrides": [
+    {
+      "files": ["**/*.test.{ts,tsx}", "test/**/*.ts"],
+      "env": { "browser": true },
+      "globals": {
+        "vi": "readonly",
+        "describe": "readonly",
+        "it": "readonly",
+        "expect": "readonly",
+        "beforeEach": "readonly",
+        "afterEach": "readonly"
+      }
+    },
+    {
+      "files": ["cypress/**/*.ts"],
+      "env": { "browser": true },
+      "globals": {
+        "cy": "readonly",
+        "Cypress": "readonly"
+      }
+    }
+  ]
+}
