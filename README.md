@@ -1,2 +1,14 @@
 # ExamBoard-app
-A smart scheduling app for teachers to set exam dates and locations, and share them instantly with their students in a clear, organized calendar.
+سامانهٔ برنامه‌ریزی امتحانات با رابط فارسی و خط زمان تعاملی.
+
+## فازهای پیاده‌سازی
+
+- **Phase 6:** خط زمان درگ‌ودراپ برای تخصیص سالن‌ها با هشدار ظرفیت و متر مصرف صندلی.
+- **Phase 5:** داشبوردهای CRUD برای اتاق‌ها، ترم‌ها، امتحانات، محدودیت‌ها و تعطیلات.
+- **Phase 4:** برنامهٔ عمومی با SSR و فیلترهای URL محور.
+- **Phase 3:** لایهٔ دادهٔ typed با React Query و جداول reusable.
+- **Phase 2:** احراز هویت با کوکی HttpOnly و مدیریت خطاهای فارسی.
+- **Phase 1:** پوستهٔ RTL، i18n و شمای کلی داشبورد.
+- **Phase 0:** راه‌اندازی Next.js 15 با Tailwind، shadcn/ui و Day.js Jalali.
+
+برای جزئیات هر فاز به پوشهٔ `frontend/docs/` مراجعه کنید.
