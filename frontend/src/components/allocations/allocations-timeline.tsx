@@ -33,7 +33,6 @@ import {
   toIso
 } from './timeline-utils'
 import {
-
   formatDateTimeInput,
   formatJalaliDateTime,
   parseDateTimeInput
@@ -50,12 +49,10 @@ interface DragMetadata {
   originalEndsAt: string
 }
 
-
 interface CapacityPoint {
   time: Date
   value: number
 }
-
 
 const useElementWidth = (ref: React.RefObject<HTMLElement>) => {
   const [width, setWidth] = useState(0)
@@ -88,7 +85,6 @@ interface TimelineNudgeLabels {
 
 type TimelineItemNudgeHandler = (kind: TimelineNudgeKind, deltaMinutes: number) => void
 
-
 interface TimelineItemProps {
   allocation: Allocation
   room: AllocationRoomSummary
@@ -102,7 +98,6 @@ interface TimelineItemProps {
 }
 
 const TimelineItem = memo(({
-
   allocation,
   room,
   rangeStart,
@@ -112,7 +107,6 @@ const TimelineItem = memo(({
   onSelect,
   onNudge,
   nudgeLabels
-
 }: TimelineItemProps) => {
   const totalMs = rangeEnd.getTime() - rangeStart.getTime()
   const allocationStart = new Date(allocation.starts_at)
@@ -266,7 +260,6 @@ const TimelineItem = memo(({
           </button>
         </div>
       ) : null}
-
       <div
         ref={startHandle.setNodeRef}
         {...startHandle.listeners}
@@ -291,7 +284,6 @@ const TimelineItem = memo(({
 
 TimelineItem.displayName = 'TimelineItem'
 
-
 interface RoomLaneProps {
   room: Room
   segments: Array<{ allocation: Allocation; room: AllocationRoomSummary }>
@@ -312,7 +304,6 @@ interface RoomLaneProps {
 }
 
 const RoomLane = memo(({
-
   room,
   segments,
   rangeStart,
@@ -324,7 +315,6 @@ const RoomLane = memo(({
   emptyText,
   onNudge,
   nudgeLabels
-
 }: RoomLaneProps) => {
   const { setNodeRef } = useDroppable({ id: `room-${room.id}` })
   return (
@@ -351,7 +341,6 @@ const RoomLane = memo(({
             onSelect={() => onSelect({ allocationId: segment.allocation.id, roomId: segment.room.id })}
             onNudge={(kind, delta) => void onNudge(segment.allocation, segment.room.id, kind, delta)}
             nudgeLabels={nudgeLabels}
-
           />
         ))}
       </div>
@@ -360,7 +349,6 @@ const RoomLane = memo(({
 })
 
 RoomLane.displayName = 'RoomLane'
-
 
 export function AllocationsTimeline() {
   const t = useTranslations('allocations.timeline')
@@ -421,7 +409,6 @@ export function AllocationsTimeline() {
     return map
   }, [segments])
 
-
   const activeSelection = useMemo(() => {
     if (!selected) return null
     return segments.find(
@@ -452,7 +439,6 @@ export function AllocationsTimeline() {
     },
     [timelineWidth, rangeEnd, rangeStart]
   )
-
 
   const calculateCapacityEstimate = useCallback(
     (allocation: Allocation, roomId: number, startsAt: Date, endsAt: Date) => {
@@ -691,7 +677,6 @@ export function AllocationsTimeline() {
     [rangeEnd, rangeStart, submitUpdate]
   )
 
-
   return (
     <section className="space-y-4 rounded-lg border border-border bg-card p-4">
       <header className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
@@ -757,7 +742,6 @@ export function AllocationsTimeline() {
           <div className="grid grid-cols-[120px_1fr] gap-2">
             {rooms.map(room => {
               const roomSegments = segmentsByRoom.get(room.id) ?? []
-
               return (
                 <RoomLane
                   key={room.id}

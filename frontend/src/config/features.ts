@@ -6,9 +6,14 @@ const isOn = (value: string | undefined) => {
   return normalized !== 'off' && normalized !== 'false' && normalized !== '0'
 }
 
+const resolveFlag = (key: string) => {
+  const publicKey = `NEXT_PUBLIC_${key}`
+  return process.env[publicKey] ?? process.env[key]
+}
+
 export const features = {
-  register: isOn(process.env.NEXT_PUBLIC_FEATURE_REGISTER),
-  passwordReset: isOn(process.env.NEXT_PUBLIC_FEATURE_PASSWORD_RESET)
+  register: isOn(resolveFlag('FEATURE_REGISTER')),
+  passwordReset: isOn(resolveFlag('FEATURE_PASSWORD_RESET'))
 } as const
 
 export type FeatureFlag = keyof typeof features
