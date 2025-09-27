@@ -1,0 +1,29 @@
+# Node / Next
+node_modules/
+.next/
+out/
+dist/
+build/
+# Tests
+coverage/
+*.lcov
+# Logs & OS
+*.log
+logs/
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+# Env
+.env
+.env.*.local
+# Docker / misc
+dbdata/
+volumes/
+*.pid
+*.pid.lock
+*.tmp
+*.bak
+*.zip
+*.tar
+*.gz
