@@ -4,14 +4,14 @@
 
 Each resource is backed by a dedicated React Query hook found in `src/lib/queries.ts`.
 
-| Resource | Hook | Query Key | Endpoint |
-| --- | --- | --- | --- |
-| Terms | `useTermsQuery` | `['terms', 'list', params]` | `GET /terms/` |
-| Rooms | `useRoomsQuery` | `['rooms', 'list', params]` | `GET /rooms/` |
-| Exams | `useExamsQuery` | `['exams', 'list', params]` | `GET /exams/` |
-| Allocations | `useAllocationsQuery` | `['allocations', 'list', params]` | `GET /allocations/` |
-| Blackouts | `useBlackoutsQuery` | `['blackouts', 'list', params]` | `GET /blackouts/` |
-| Holidays | `useHolidaysQuery` | `['holidays', 'list', params]` | `GET /holidays/` |
+| Resource     | Hook                  | Query Key                         | Endpoint             |
+| ------------ | --------------------- | --------------------------------- | -------------------- |
+| Terms        | `useTermsQuery`       | `['terms', 'list', params]`       | `GET /terms/`        |
+| Rooms        | `useRoomsQuery`       | `['rooms', 'list', params]`       | `GET /rooms/`        |
+| Exams        | `useExamsQuery`       | `['exams', 'list', params]`       | `GET /exams/`        |
+| Allocations  | `useAllocationsQuery` | `['allocations', 'list', params]` | `GET /allocations/`  |
+| Blackouts    | `useBlackoutsQuery`   | `['blackouts', 'list', params]`   | `GET /blackouts/`    |
+| Holidays     | `useHolidaysQuery`    | `['holidays', 'list', params]`    | `GET /holidays/`     |
 | Public Exams | `usePublicExamsQuery` | `['publicExams', 'list', params]` | `GET /public/exams/` |
 
 Pagination and filter parameters are passed through to DRF unchanged. `params` values are included in the query key so filter changes correctly invalidate cache entries.

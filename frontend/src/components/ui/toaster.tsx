@@ -1,24 +1,37 @@
-'use client'
+"use client";
 
-import { Button } from './button'
-import { Toast, ToastClose, ToastDescription, ToastProvider, ToastTitle, ToastViewport } from './toast'
-import { useToast } from './use-toast'
+import { Button } from "./button";
+import {
+  Toast,
+  ToastClose,
+  ToastDescription,
+  ToastProvider,
+  ToastTitle,
+  ToastViewport,
+} from "./toast";
+import { useToast } from "./use-toast";
 
 interface ToasterProps {
-  rtl?: boolean
-  className?: string
+  rtl?: boolean;
+  className?: string;
 }
 
 export function Toaster({ rtl, className }: ToasterProps) {
-  const { toasts, dismiss } = useToast()
+  const { toasts, dismiss } = useToast();
 
   return (
-    <ToastProvider swipeDirection={rtl ? 'right' : 'left'}>
-      {toasts.map(toast => (
-        <Toast key={toast.id} onOpenChange={open => (open ? undefined : dismiss(toast.id))}>
+    <ToastProvider swipeDirection={rtl ? "right" : "left"}>
+      {toasts.map((toast) => (
+        <Toast
+          key={toast.id}
+          onOpenChange={(open) => (open ? undefined : dismiss(toast.id))}
+        >
           <div className="relative flex flex-col space-y-2 text-right">
             {toast.title ? <ToastTitle>{toast.title}</ToastTitle> : null}
-            {toast.description ? <ToastDescription>{toast.description}</ToastDescription> : null}
+            {toast.description ? (
+              <ToastDescription>{toast.description}</ToastDescription>
+            ) : null}
+
             {toast.action ? toast.action : null}
             <ToastClose asChild>
               <Button
@@ -35,5 +48,5 @@ export function Toaster({ rtl, className }: ToasterProps) {
       ))}
       <ToastViewport className={className} />
     </ToastProvider>
-  )
+  );
 }

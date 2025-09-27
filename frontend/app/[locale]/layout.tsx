@@ -1,35 +1,45 @@
-import type { ReactNode } from 'react'
-import { notFound } from 'next/navigation'
-import { NextIntlClientProvider } from 'next-intl'
-import { getMessages, unstable_setRequestLocale } from 'next-intl/server'
+import type { ReactNode } from "react";
+import { notFound } from "next/navigation";
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages, unstable_setRequestLocale } from "next-intl/server";
 
-import { AppShell } from '@/src/components/layout/app-shell'
-import { AccessibilityProvider } from '@/src/components/providers/a11y-provider'
-import { QueryProvider } from '@/src/components/providers/query-provider'
-import { locales, type Locale } from '@/src/i18n/config'
-import { Toaster } from '@/src/components/ui/toaster'
+import { AppShell } from "@/src/components/layout/app-shell";
+import { AccessibilityProvider } from "@/src/components/providers/a11y-provider";
+import { QueryProvider } from "@/src/components/providers/query-provider";
+import { locales, type Locale } from "@/src/i18n/config";
+import { Toaster } from "@/src/components/ui/toaster";
+
+export const dynamic = "force-dynamic";
 
 interface LocaleLayoutProps {
-  children: ReactNode
-  params: { locale: string }
+  children: ReactNode;
+  params: Promise<{ locale: string }>;
 }
 
 export function generateStaticParams() {
-  return locales.map(locale => ({ locale }))
+  return [];
 }
 
-export default async function LocaleLayout({ children, params }: LocaleLayoutProps) {
-  const locale = params.locale as Locale
+export default async function LocaleLayout({
+  children,
+  params,
+}: LocaleLayoutProps) {
+  const { locale: rawLocale } = await params;
+  const locale = rawLocale as Locale;
 
   if (!locales.includes(locale)) {
-    notFound()
+    notFound();
   }
 
-  unstable_setRequestLocale(locale)
-  const messages = await getMessages()
+  unstable_setRequestLocale(locale);
+  const messages = await getMessages();
 
   return (
-    <NextIntlClientProvider locale={locale} messages={messages} timeZone="Asia/Tehran">
+    <NextIntlClientProvider
+      locale={locale}
+      messages={messages}
+      timeZone="Asia/Tehran"
+    >
       <QueryProvider>
         <AccessibilityProvider>
           <AppShell>{children}</AppShell>
@@ -37,5 +47,5 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
         </AccessibilityProvider>
       </QueryProvider>
     </NextIntlClientProvider>
-  )
+  );
 }
