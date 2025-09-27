@@ -17,6 +17,7 @@ export default defineConfig({
     setupFiles: ['./test/setup.ts'],
     css: true,
     coverage: {
+      enabled: true,
       reporter: ['text', 'html'],
       reportsDirectory: './coverage/unit'
     }
