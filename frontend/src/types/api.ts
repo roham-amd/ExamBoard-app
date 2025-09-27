@@ -112,3 +112,39 @@ export type AllocationListResponse = PaginatedResponse<Allocation>
 export type BlackoutListResponse = PaginatedResponse<Blackout>
 export type HolidayListResponse = PaginatedResponse<Holiday>
 export type PublicExamListResponse = PaginatedResponse<PublicExam>
+
+export interface PublicTimetableTerm {
+  id: number
+  name: string
+  slug: string
+  starts_at: string
+  ends_at: string
+  published_at?: string | null
+}
+
+export interface PublicTimetableRoom {
+  id: number
+  name: string
+  code: string
+  capacity: number
+  campus?: string | null
+}
+
+export interface PublicTimetableAllocation {
+  id: number
+  room_id: number
+  exam_id: number
+  exam_title: string
+  course_code: string
+  starts_at: string
+  ends_at: string
+  allocated_seats: number
+  notes?: string | null
+}
+
+export interface PublicTimetableResponse {
+  term: PublicTimetableTerm
+  rooms: PublicTimetableRoom[]
+  allocations: PublicTimetableAllocation[]
+  generated_at?: string
+}

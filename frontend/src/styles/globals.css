@@ -58,3 +58,19 @@ body {
 * {
   @apply border-border;
 }
+
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  .timetable-scroll {
+    overflow: visible !important;
+    max-height: none !important;
+  }
+
+  .timetable-row {
+    page-break-inside: avoid;
+  }
+}
