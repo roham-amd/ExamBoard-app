@@ -21,6 +21,7 @@ import {
 import { useToast } from '@/src/components/ui/use-toast'
 import { dayjs } from '@/src/lib/dayjs'
 import { cn } from '@/src/lib/utils'
+import { features } from '@/src/config/features'
 
 const NAV_ITEMS = [
   { key: 'dashboard', icon: LayoutDashboard, href: 'dashboard' },
@@ -112,6 +113,16 @@ export function AppShell({ children }: AppShellProps) {
             <Button variant="outline" onClick={handleToast}>
               {layoutT('topbar.actions.showToast')}
             </Button>
+            {features.register && (
+              <Button variant="ghost" size="sm">
+                {layoutT('topbar.actions.register')}
+              </Button>
+            )}
+            {features.passwordReset && (
+              <Button variant="ghost" size="sm">
+                {layoutT('topbar.actions.passwordReset')}
+              </Button>
+            )}
           </div>
         </header>
         <main className="flex-1 overflow-y-auto px-6 py-6">{children}</main>

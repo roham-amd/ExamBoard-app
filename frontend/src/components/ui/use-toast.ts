@@ -36,7 +36,7 @@ function addToast(toast: Toast) {
   }
 }
 
-function dismissToast(id: string) {
+export function dismissToast(id: string) {
   toasts = toasts.filter(toast => toast.id !== id)
   notify()
   const timeout = toastTimeouts.get(id)
@@ -63,4 +63,10 @@ export function useToast() {
     },
     dismiss: dismissToast
   }
+}
+
+export function toast({ title, description, action }: Omit<Toast, 'id'>) {
+  const id = crypto.randomUUID()
+  addToast({ id, title, description, action })
+  return id
 }
