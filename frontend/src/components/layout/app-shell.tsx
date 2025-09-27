@@ -5,7 +5,18 @@ import { useMemo, useState } from 'react'
 import Link from 'next/link'
 import { useParams, usePathname } from 'next/navigation'
 import { useTranslations } from 'next-intl'
-import { CalendarDays, LayoutDashboard, X } from 'lucide-react'
+import {
+  Ban,
+  Building2,
+  CalendarCheck2,
+  CalendarDays,
+  CalendarRange,
+  ClipboardList,
+  LayoutDashboard,
+  Megaphone,
+  Share2,
+  X
+} from 'lucide-react'
 
 import { Button } from '@/src/components/ui/button'
 import {
@@ -25,7 +36,14 @@ import { features } from '@/src/config/features'
 
 const NAV_ITEMS = [
   { key: 'dashboard', icon: LayoutDashboard, href: 'dashboard' },
-  { key: 'timetable', icon: CalendarDays, href: 'timetable' }
+  { key: 'timetable', icon: CalendarDays, href: 'timetable' },
+  { key: 'terms', icon: CalendarRange, href: 'terms' },
+  { key: 'rooms', icon: Building2, href: 'rooms' },
+  { key: 'exams', icon: ClipboardList, href: 'exams' },
+  { key: 'allocations', icon: Share2, href: 'allocations' },
+  { key: 'blackouts', icon: Ban, href: 'blackouts' },
+  { key: 'holidays', icon: CalendarCheck2, href: 'holidays' },
+  { key: 'publicExams', icon: Megaphone, href: 'public' }
 ] as const
 
 interface AppShellProps {
