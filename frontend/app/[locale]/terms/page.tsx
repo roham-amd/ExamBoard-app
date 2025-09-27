@@ -151,6 +151,7 @@ export default function TermsPage() {
       }
     }
   })
+
   const columns: DataTableColumn<Term>[] = [
     { header: t('columns.name'), accessor: item => item.name },
     { header: t('columns.slug'), accessor: item => item.slug },
@@ -222,6 +223,7 @@ export default function TermsPage() {
         error={error}
         onRetry={() => refetch()}
       />
+
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent className="sm:max-w-xl">
           <DialogHeader>

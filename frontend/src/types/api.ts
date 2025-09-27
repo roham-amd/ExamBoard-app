@@ -88,6 +88,8 @@ export interface AllocationQueryParams extends PaginationParams {
   room?: number
   from?: string
   to?: string
+  date_from?: string
+  date_to?: string
 }
 
 export interface Blackout {

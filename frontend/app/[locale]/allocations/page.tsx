@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Plus, Pencil, Trash2 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 
+import { AllocationsTimeline } from '@/src/components/allocations/allocations-timeline'
 import { DataTable, type DataTableColumn } from '@/src/components/data/data-table'
 import { Button } from '@/src/components/ui/button'
 import {
@@ -206,6 +207,8 @@ export default function AllocationsPage() {
           {t('actions.create')}
         </Button>
       </header>
+
+      <AllocationsTimeline />
       <DataTable
         data={allocationsQuery.data?.results}
         total={allocationsQuery.data?.count}
