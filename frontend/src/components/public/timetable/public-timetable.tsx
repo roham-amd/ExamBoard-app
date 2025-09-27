@@ -1,3 +1,4 @@
+
 "use client";
 
 import {
@@ -56,10 +57,12 @@ const ensureMinDuration = (minutes: number) => (minutes <= 0 ? 30 : minutes);
 const jalaliFormat = (value: string, format = "dddd D MMMM YYYY") =>
   dayjs(value).calendar("jalali").locale("fa").format(format);
 
+
 const getTimelineBounds = (
   view: ViewOption,
   filters: TimetableFilters,
   term: PublicTimetableTerm,
+
   allocations: PublicTimetableAllocation[],
 ) => {
   const baseCandidate = filters.from
@@ -93,11 +96,13 @@ const getTimelineBounds = (
     const toCandidate = dayjs(filters.to);
     if (toCandidate.isValid() && toCandidate.isAfter(start)) {
       end = toCandidate;
+
     }
   }
 
   if (!allocations.length) {
     if (!end.isAfter(start)) {
+
       end = start.add(1, "hour");
     }
     return { start, end };
@@ -132,9 +137,11 @@ const getTimelineBounds = (
   return { start, end };
 };
 
+
 const buildTimelineSegments = (
   view: ViewOption,
   start: number,
+
   end: number,
 ): TimelineSegment[] => {
   const segments: TimelineSegment[] = [];
@@ -184,9 +191,11 @@ const buildTimelineSegments = (
   return segments;
 };
 
+
 const mapAllocationsToSegments = (
   allocations: PublicTimetableAllocation[],
   start: number,
+
   end: number,
 ): AllocationSegment[] => {
   const totalMinutes = Math.max(1, dayjs(end).diff(dayjs(start), "minute"));
@@ -200,11 +209,13 @@ const mapAllocationsToSegments = (
     const offsetPercent = (offsetMinutes / totalMinutes) * 100;
     const widthPercent = (durationMinutes / totalMinutes) * 100;
 
+
     return {
       ...allocation,
       offsetMinutes,
       durationMinutes,
       offsetPercent,
+
       widthPercent,
     };
   });
@@ -313,14 +324,17 @@ export function PublicTimetable(props: PublicTimetableProps) {
     }));
   }, [visibleRooms, allocationByRoom]);
 
+
   const renderRowContent = (row: (typeof roomRows)[number]) => (
     <>
       <div className="w-56 shrink-0 border-e px-4 py-3">
         <div className="font-semibold">{row.room.name}</div>
         <div className="text-xs text-muted-foreground">کد: {row.room.code}</div>
+
         <div className="text-xs text-muted-foreground">
           ظرفیت: {row.room.capacity}
         </div>
+
       </div>
       <div className="relative flex-1" dir="ltr">
         <div className="absolute inset-0">
@@ -330,6 +344,7 @@ export function PublicTimetable(props: PublicTimetableProps) {
         </div>
         <div className="relative flex h-full items-center gap-2 p-3">
           {row.segments.length === 0 ? (
+
             <span className="text-xs text-muted-foreground">
               بدون امتحان برنامه‌ریزی‌شده
             </span>
@@ -346,10 +361,12 @@ export function PublicTimetable(props: PublicTimetableProps) {
                 <span className="font-semibold text-primary-foreground">
                   {segment.exam_title}
                 </span>
+
                 <span className="text-primary-foreground/80">
                   {segment.course_code} • {segment.allocated_seats} نفر
                 </span>
                 <span className="text-[10px] text-primary-foreground/70">
+
                   {dayjs(segment.starts_at)
                     .calendar("jalali")
                     .locale("fa")
@@ -364,6 +381,7 @@ export function PublicTimetable(props: PublicTimetableProps) {
                   <span className="text-[10px] text-primary-foreground/70">
                     {segment.notes}
                   </span>
+
                 ) : null}
               </div>
             ))
@@ -371,6 +389,7 @@ export function PublicTimetable(props: PublicTimetableProps) {
         </div>
       </div>
     </>
+
   );
 
   const boundsStart = allocationByRoom.bounds.start;
@@ -384,17 +403,21 @@ export function PublicTimetable(props: PublicTimetableProps) {
 
   const rowHeight = 96;
   const virtualizationEnabled = !isPrinting;
+
   const rowVirtualizer = useVirtualizer({
     count: roomRows.length,
     getScrollElement: () => scrollParentRef.current,
     estimateSize: () => rowHeight,
     overscan: 6,
+
     enabled: virtualizationEnabled,
   });
+
 
   const summary = useMemo(() => {
     return {
       allocations: filteredAllocations.length,
+
       rooms: visibleRooms.length,
     };
   }, [filteredAllocations.length, visibleRooms.length]);
@@ -437,10 +460,12 @@ export function PublicTimetable(props: PublicTimetableProps) {
     });
   };
 
+
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
+
           <h1 className="text-2xl font-bold">
             برنامهٔ امتحانات ترم {term.name}
           </h1>
@@ -451,11 +476,13 @@ export function PublicTimetable(props: PublicTimetableProps) {
           {generatedAt ? (
             <p className="text-xs text-muted-foreground">
               به‌روزرسانی: {jalaliFormat(generatedAt, "D MMMM YYYY HH:mm")}
+
             </p>
           ) : null}
         </div>
         <div className="flex items-center gap-2 print:hidden">
           <div className="inline-flex items-center gap-1 rounded-md border p-1">
+
             {VIEW_OPTIONS.map((option) => (
               <Button
                 key={option}
@@ -465,6 +492,7 @@ export function PublicTimetable(props: PublicTimetableProps) {
                 onClick={() => setView(option)}
               >
                 {option === "day" ? "روز" : option === "week" ? "هفته" : "ماه"}
+
               </Button>
             ))}
           </div>
@@ -482,7 +510,9 @@ export function PublicTimetable(props: PublicTimetableProps) {
           <span className="font-medium">جستجو</span>
           <input
             value={filters.search}
+
             onChange={(event) => updateFilter("search", event.target.value)}
+
             placeholder="درس یا کد"
             className="h-10 rounded-md border px-3"
             name="search"
@@ -492,10 +522,12 @@ export function PublicTimetable(props: PublicTimetableProps) {
           <span className="font-medium">از تاریخ</span>
           <input
             type="datetime-local"
+
             value={filters.from ?? ""}
             onChange={(event) =>
               updateFilter("from", event.target.value || null)
             }
+
             className="h-10 rounded-md border px-3"
             name="from"
           />
@@ -504,8 +536,10 @@ export function PublicTimetable(props: PublicTimetableProps) {
           <span className="font-medium">تا تاریخ</span>
           <input
             type="datetime-local"
+
             value={filters.to ?? ""}
             onChange={(event) => updateFilter("to", event.target.value || null)}
+
             className="h-10 rounded-md border px-3"
             name="to"
           />
@@ -513,16 +547,20 @@ export function PublicTimetable(props: PublicTimetableProps) {
         <fieldset className="col-span-full flex flex-col gap-2 text-sm md:col-span-2">
           <legend className="font-medium">انتخاب کلاس‌ها</legend>
           <div className="flex flex-wrap gap-2">
+
             {rooms.map((room) => {
               const checked = filters.rooms.includes(room.id);
+
               return (
                 <label
                   key={room.id}
                   className={cn(
+
                     "flex items-center gap-2 rounded-full border px-3 py-1 text-xs",
                     checked
                       ? "border-primary bg-primary/10 text-primary"
                       : "bg-muted",
+
                   )}
                 >
                   <input
@@ -535,6 +573,7 @@ export function PublicTimetable(props: PublicTimetableProps) {
                   />
                   <span>
                     {room.name}
+
                     <span className="text-muted-foreground">
                       {" "}
                       ({room.capacity})
@@ -542,6 +581,7 @@ export function PublicTimetable(props: PublicTimetableProps) {
                   </span>
                 </label>
               );
+
             })}
           </div>
         </fieldset>
@@ -557,6 +597,7 @@ export function PublicTimetable(props: PublicTimetableProps) {
         <span>تعداد آزمون‌ها: {summary.allocations}</span>
         <span>تعداد کلاس‌ها: {summary.rooms}</span>
         <span>
+
           بازهٔ زمانی نمایش:{" "}
           {jalaliFormat(boundsStart.toISOString(), "D MMM YYYY HH:mm")} تا{" "}
           {jalaliFormat(boundsEnd.toISOString(), "D MMM YYYY HH:mm")}
@@ -564,17 +605,20 @@ export function PublicTimetable(props: PublicTimetableProps) {
         {activeFilters.search ? (
           <span>جستجو: «{activeFilters.search}»</span>
         ) : null}
+
       </div>
 
       <div className="overflow-hidden rounded-lg border">
         <div className="sticky top-0 z-20 border-b bg-card/90 backdrop-blur print:relative print:bg-transparent">
           <div className="flex">
+
             <div className="w-56 border-e px-4 py-3 text-sm font-medium text-muted-foreground">
               کلاس
             </div>
             <div className="flex-1">
               <div dir="ltr" className="relative h-12">
                 {timelineSegments.map((segment) => (
+
                   <div
                     key={segment.id}
                     className="absolute top-0 flex h-full -translate-x-1/2 flex-col items-center justify-center text-xs text-muted-foreground"
@@ -590,6 +634,7 @@ export function PublicTimetable(props: PublicTimetableProps) {
         </div>
         <div
           ref={scrollParentRef}
+
           className={cn(
             "timetable-scroll max-h-[640px] overflow-auto bg-background",
             isPrinting && "max-h-none overflow-visible",
@@ -602,19 +647,23 @@ export function PublicTimetable(props: PublicTimetableProps) {
                 ? rowVirtualizer.getTotalSize()
                 : undefined,
             }}
+
           >
             {roomRows.length === 0 ? (
               <div className="px-6 py-12 text-center text-sm text-muted-foreground">
                 برنامه‌ای برای نمایش یافت نشد.
               </div>
             ) : virtualizationEnabled ? (
+
               rowVirtualizer.getVirtualItems().map((virtualRow) => {
                 const row = roomRows[virtualRow.index];
                 if (!row) return null;
+
                 return (
                   <div
                     key={row.room.id}
                     className="timetable-row absolute inset-x-0 flex border-b bg-background"
+
                     style={{
                       transform: `translateY(${virtualRow.start}px)`,
                       height: `${virtualRow.size}px`,
@@ -626,6 +675,7 @@ export function PublicTimetable(props: PublicTimetableProps) {
               })
             ) : (
               roomRows.map((row) => (
+
                 <div key={row.room.id} className="flex border-b bg-background">
                   {renderRowContent(row)}
                 </div>
@@ -635,5 +685,7 @@ export function PublicTimetable(props: PublicTimetableProps) {
         </div>
       </div>
     </div>
+
   );
+
 }

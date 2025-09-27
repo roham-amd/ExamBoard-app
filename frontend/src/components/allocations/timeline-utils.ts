@@ -1,3 +1,4 @@
+
 export const MIN_DURATION_MINUTES = 15;
 
 export const snapDate = (value: Date, minutes: number) => {
@@ -53,12 +54,14 @@ export const ensureMinimumDuration = (start: Date, end: Date) => {
   return { start, end };
 };
 
+
 export const applyTimelineNudge = ({
   start,
   end,
   kind,
   deltaMinutes,
   rangeStart,
+
   rangeEnd,
 }: TimelineNudgeInput) => {
   let nextStart = new Date(start);
@@ -99,3 +102,4 @@ export const applyTimelineNudge = ({
   const adjusted = ensureMinimumDuration(start, nextEnd);
   return { start: adjusted.start, end: adjusted.end };
 };
+

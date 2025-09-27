@@ -1,5 +1,6 @@
 /// <reference types="cypress" />
 
+
 describe("Authentication flow", () => {
   it("surfaces server errors when login fails", () => {
     cy.intercept("POST", "/auth/login", (req) => {
@@ -20,11 +21,13 @@ describe("Authentication flow", () => {
 describe("Public timetable filters", () => {
   it("renders timetable data and filters by search term", () => {
     cy.intercept("GET", "/api/public/allocations*", {
+
       statusCode: 200,
       body: {
         results: [
           {
             id: 1,
+
             exam_title: "ریاضی ۱",
             allocated_seats: 30,
             starts_at: "2024-01-01T08:00:00Z",
@@ -167,3 +170,4 @@ describe("Dashboard exam and allocation flow", () => {
     cy.contains("ظرفیت کافی نیست.").should("be.visible");
   });
 });
+

@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
@@ -12,11 +13,13 @@ import {
   type DataTableColumn,
 } from "@/src/components/data/data-table";
 import { Button } from "@/src/components/ui/button";
+
 import {
   Dialog,
   DialogContent,
   DialogFooter,
   DialogHeader,
+
   DialogTitle,
 } from "@/src/components/ui/dialog";
 import { useToast } from "@/src/components/ui/use-toast";
@@ -50,12 +53,14 @@ const createDefaultValues = (): AllocationFormValues => {
   const ends = new Date(now);
   ends.setHours(ends.getHours() + 2);
 
+
   return {
     exam: 0,
     rooms: [],
     starts_at: starts.toISOString(),
     ends_at: ends.toISOString(),
     allocated_seats: 10,
+
     notes: "",
   };
 };
@@ -195,6 +200,7 @@ export default function AllocationsPage() {
           <Button size="sm" variant="outline" onClick={() => handleEdit(item)}>
             <Pencil className="ms-1 h-3.5 w-3.5" aria-hidden="true" />
             {t("actions.edit")}
+
           </Button>
           <Button
             size="sm"
@@ -203,6 +209,7 @@ export default function AllocationsPage() {
             disabled={deleteMutation.isPending}
           >
             <Trash2 className="ms-1 h-3.5 w-3.5" aria-hidden="true" />
+
             {t("actions.delete")}
           </Button>
         </div>
@@ -211,16 +218,19 @@ export default function AllocationsPage() {
     },
   ];
 
+
   return (
     <section className="space-y-6">
       <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="space-y-1">
+
           <h1 className="text-2xl font-bold text-foreground">{t("title")}</h1>
           <p className="text-sm text-muted-foreground">{t("description")}</p>
         </div>
         <Button onClick={handleCreate} className="self-start">
           <Plus className="ms-1 h-4 w-4" aria-hidden="true" />
           {t("actions.create")}
+
         </Button>
       </header>
 
@@ -237,9 +247,11 @@ export default function AllocationsPage() {
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent className="sm:max-w-xl">
           <DialogHeader>
+
             <DialogTitle>
               {dialogMode === "edit" ? t("actions.edit") : t("actions.create")}
             </DialogTitle>
+
           </DialogHeader>
           <form className="space-y-4" onSubmit={onSubmit}>
             <div className="grid gap-4 sm:grid-cols-2">
@@ -248,6 +260,7 @@ export default function AllocationsPage() {
                 control={form.control}
                 render={({ field }) => (
                   <div className="space-y-1 sm:col-span-2">
+
                     <label className="text-sm font-medium text-foreground">
                       {t("form.exam")}
                     </label>
@@ -256,22 +269,27 @@ export default function AllocationsPage() {
                       onChange={(event) =>
                         field.onChange(Number(event.target.value))
                       }
+
                       disabled={isSubmitting || examsQuery.isPending}
                       className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
                     >
                       <option value="" disabled>
                         —
                       </option>
+
                       {examsQuery.data?.results?.map((exam) => (
+
                         <option key={exam.id} value={exam.id}>
                           {exam.title}
                         </option>
                       ))}
                     </select>
                     {form.formState.errors.exam ? (
+
                       <p className="text-xs text-destructive">
                         {form.formState.errors.exam.message}
                       </p>
+
                     ) : null}
                   </div>
                 )}
@@ -281,6 +299,7 @@ export default function AllocationsPage() {
                 control={form.control}
                 render={({ field }) => (
                   <div className="space-y-1 sm:col-span-2">
+
                     <label className="text-sm font-medium text-foreground">
                       {t("form.rooms")}
                     </label>
@@ -293,20 +312,25 @@ export default function AllocationsPage() {
                           (option) => Number(option.value),
                         );
                         field.onChange(selected);
+
                       }}
                       disabled={isSubmitting || roomsQuery.isPending}
                       className="h-32 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
                     >
+
                       {roomsQuery.data?.results?.map((room) => (
+
                         <option key={room.id} value={room.id}>
                           {room.name} ({room.capacity})
                         </option>
                       ))}
                     </select>
                     {form.formState.errors.rooms ? (
+
                       <p className="text-xs text-destructive">
                         {form.formState.errors.rooms.message}
                       </p>
+
                     ) : null}
                   </div>
                 )}

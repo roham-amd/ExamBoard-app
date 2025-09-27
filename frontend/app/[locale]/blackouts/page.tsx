@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
@@ -11,11 +12,13 @@ import {
   type DataTableColumn,
 } from "@/src/components/data/data-table";
 import { Button } from "@/src/components/ui/button";
+
 import {
   Dialog,
   DialogContent,
   DialogFooter,
   DialogHeader,
+
   DialogTitle,
 } from "@/src/components/ui/dialog";
 import { useToast } from "@/src/components/ui/use-toast";
@@ -42,20 +45,24 @@ const createDefaultValues = (): BlackoutFormValues => {
   const ends = new Date(now);
   ends.setHours(ends.getHours() + 2);
 
+
   return {
     room: null,
     all_day: true,
     starts_at: starts.toISOString(),
     ends_at: ends.toISOString(),
+
     reason: "",
   };
 };
+
 
 const mapBlackoutToValues = (blackout: Blackout): BlackoutFormValues => ({
   room: blackout.room,
   all_day: blackout.all_day,
   starts_at: blackout.starts_at,
   ends_at: blackout.ends_at,
+
   reason: blackout.reason,
 });
 
@@ -164,6 +171,7 @@ export default function BlackoutsPage() {
           <Button size="sm" variant="outline" onClick={() => handleEdit(item)}>
             <Pencil className="ms-1 h-3.5 w-3.5" aria-hidden="true" />
             {t("actions.edit")}
+
           </Button>
           <Button
             size="sm"
@@ -172,6 +180,7 @@ export default function BlackoutsPage() {
             disabled={deleteMutation.isPending}
           >
             <Trash2 className="ms-1 h-3.5 w-3.5" aria-hidden="true" />
+
             {t("actions.delete")}
           </Button>
         </div>
@@ -182,16 +191,19 @@ export default function BlackoutsPage() {
 
   const isGlobal = form.watch("room") === null;
 
+
   return (
     <section className="space-y-6">
       <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="space-y-1">
+
           <h1 className="text-2xl font-bold text-foreground">{t("title")}</h1>
           <p className="text-sm text-muted-foreground">{t("description")}</p>
         </div>
         <Button onClick={handleCreate} className="self-start">
           <Plus className="ms-1 h-4 w-4" aria-hidden="true" />
           {t("actions.create")}
+
         </Button>
       </header>
       <DataTable
@@ -206,9 +218,11 @@ export default function BlackoutsPage() {
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent className="sm:max-w-lg">
           <DialogHeader>
+
             <DialogTitle>
               {dialogMode === "edit" ? t("actions.edit") : t("actions.create")}
             </DialogTitle>
+
           </DialogHeader>
           <form className="space-y-4" onSubmit={onSubmit}>
             <div className="grid gap-4">
@@ -218,20 +232,24 @@ export default function BlackoutsPage() {
                   type="checkbox"
                   className="h-4 w-4 rounded border-input"
                   checked={isGlobal}
+
                   onChange={(event) => {
                     if (event.target.checked) {
                       form.setValue("room", null);
                     } else if (roomsQuery.data?.results?.[0]) {
                       form.setValue("room", roomsQuery.data.results[0].id);
+
                     }
                   }}
                   disabled={isSubmitting}
                 />
+
                 <label
                   className="text-sm text-foreground"
                   htmlFor="blackout-global"
                 >
                   {t("form.global")}
+
                 </label>
               </div>
               <Controller
@@ -239,6 +257,7 @@ export default function BlackoutsPage() {
                 control={form.control}
                 render={({ field }) => (
                   <div className="space-y-1">
+
                     <label className="text-sm font-medium text-foreground">
                       {t("form.room")}
                     </label>
@@ -258,15 +277,18 @@ export default function BlackoutsPage() {
                     >
                       <option value="">{t("allRooms")}</option>
                       {roomsQuery.data?.results?.map((room) => (
+
                         <option key={room.id} value={room.id}>
                           {room.name}
                         </option>
                       ))}
                     </select>
                     {form.formState.errors.room ? (
+
                       <p className="text-xs text-destructive">
                         {form.formState.errors.room.message}
                       </p>
+
                     ) : null}
                   </div>
                 )}
@@ -277,6 +299,7 @@ export default function BlackoutsPage() {
                   type="checkbox"
                   className="h-4 w-4 rounded border-input"
                   disabled={isSubmitting}
+
                   {...form.register("all_day")}
                 />
                 <label
@@ -284,6 +307,7 @@ export default function BlackoutsPage() {
                   htmlFor="blackout-all-day"
                 >
                   {t("form.allDay")}
+
                 </label>
               </div>
               <Controller
@@ -291,6 +315,7 @@ export default function BlackoutsPage() {
                 control={form.control}
                 render={({ field }) => (
                   <div className="space-y-1">
+
                     <label className="text-sm font-medium text-foreground">
                       {t("form.startsAt")}
                     </label>
@@ -300,12 +325,14 @@ export default function BlackoutsPage() {
                       onChange={(event) =>
                         field.onChange(parseDateTimeInput(event.target.value))
                       }
+
                       disabled={isSubmitting}
                       dir="ltr"
                       className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
                     />
                     {field.value ? (
                       <p className="text-xs text-muted-foreground">
+
                         {commonT("dateHelper", {
                           value: formatJalaliDateTime(field.value),
                         })}
@@ -315,6 +342,7 @@ export default function BlackoutsPage() {
                       <p className="text-xs text-destructive">
                         {form.formState.errors.starts_at.message}
                       </p>
+
                     ) : null}
                   </div>
                 )}
@@ -324,6 +352,7 @@ export default function BlackoutsPage() {
                 control={form.control}
                 render={({ field }) => (
                   <div className="space-y-1">
+
                     <label className="text-sm font-medium text-foreground">
                       {t("form.endsAt")}
                     </label>
@@ -333,12 +362,14 @@ export default function BlackoutsPage() {
                       onChange={(event) =>
                         field.onChange(parseDateTimeInput(event.target.value))
                       }
+
                       disabled={isSubmitting}
                       dir="ltr"
                       className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
                     />
                     {field.value ? (
                       <p className="text-xs text-muted-foreground">
+
                         {commonT("dateHelper", {
                           value: formatJalaliDateTime(field.value),
                         })}
@@ -348,28 +379,34 @@ export default function BlackoutsPage() {
                       <p className="text-xs text-destructive">
                         {form.formState.errors.ends_at.message}
                       </p>
+
                     ) : null}
                   </div>
                 )}
               />
               <div className="space-y-1">
+
                 <label className="text-sm font-medium text-foreground">
                   {t("form.reason")}
                 </label>
                 <textarea
                   rows={3}
                   {...form.register("reason")}
+
                   disabled={isSubmitting}
                   className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
                 />
                 {form.formState.errors.reason ? (
+
                   <p className="text-xs text-destructive">
                     {form.formState.errors.reason.message}
                   </p>
+
                 ) : null}
               </div>
             </div>
             {form.formState.errors.root?.message ? (
+
               <p className="text-sm text-destructive">
                 {form.formState.errors.root.message}
               </p>
@@ -379,6 +416,7 @@ export default function BlackoutsPage() {
                 {dialogMode === "edit"
                   ? commonT("actions.save")
                   : commonT("actions.create")}
+
               </Button>
               <Button
                 type="button"
@@ -386,12 +424,16 @@ export default function BlackoutsPage() {
                 onClick={() => setDialogOpen(false)}
                 disabled={isSubmitting}
               >
+
                 {commonT("actions.cancel")}
+
               </Button>
             </DialogFooter>
           </form>
         </DialogContent>
       </Dialog>
     </section>
+
   );
+
 }

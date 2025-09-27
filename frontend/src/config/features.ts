@@ -1,3 +1,4 @@
+
 const normalize = (value: string | undefined) => value?.toLowerCase().trim();
 
 const isOn = (value: string | undefined) => {
@@ -20,4 +21,5 @@ export type FeatureFlag = keyof typeof features;
 
 export function isFeatureEnabled(flag: FeatureFlag) {
   return features[flag];
+
 }

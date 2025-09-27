@@ -1,3 +1,4 @@
+
 import axios, { AxiosError } from "axios";
 
 import faMessages from "@/src/i18n/messages/fa.json";
@@ -62,10 +63,12 @@ const getCode = (data: unknown): string | undefined => {
 export interface ErrorContent {
   title: string;
   description: string;
+
 }
 
 export function resolveErrorContent(error: unknown): ErrorContent {
   if (!axios.isAxiosError(error)) {
+
     return errorMessages.unknown;
   }
 
@@ -96,4 +99,5 @@ export function resolveErrorContent(error: unknown): ErrorContent {
   }
 
   return errorMessages.unknown;
+
 }

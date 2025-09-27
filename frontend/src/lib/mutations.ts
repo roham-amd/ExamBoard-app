@@ -1,9 +1,11 @@
+
 "use client";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import api from "@/src/lib/axios";
 import { queryKeys } from "@/src/lib/query-keys";
+
 import type {
   Allocation,
   Blackout,
@@ -11,22 +13,27 @@ import type {
   Room,
   Term,
   Exam,
+
   PaginatedResponse,
 } from "@/src/types/api";
+
 import type {
   AllocationFormValues,
   BlackoutFormValues,
   ExamFormValues,
   HolidayFormValues,
   RoomFormValues,
+
   TermFormValues,
 } from "@/src/lib/schemas";
 
 type Identifiable = { id: number };
 
+
 const prependItem = <T>(
   queryClient: ReturnType<typeof useQueryClient>,
   resourceKey: readonly unknown[],
+
   item: T,
 ) => {
   const queries = queryClient.getQueriesData<PaginatedResponse<T>>({
@@ -42,9 +49,11 @@ const prependItem = <T>(
   }
 };
 
+
 const replaceItem = <T extends Identifiable>(
   queryClient: ReturnType<typeof useQueryClient>,
   resourceKey: readonly unknown[],
+
   item: T,
 ) => {
   const queries = queryClient.getQueriesData<PaginatedResponse<T>>({
@@ -63,9 +72,11 @@ const replaceItem = <T extends Identifiable>(
   }
 };
 
+
 const removeItem = <T extends Identifiable>(
   queryClient: ReturnType<typeof useQueryClient>,
   resourceKey: readonly unknown[],
+
   id: number,
 ) => {
   const queries = queryClient.getQueriesData<PaginatedResponse<T>>({
@@ -409,3 +420,4 @@ export const useDeleteHolidayMutation = () => {
     },
   });
 };
+

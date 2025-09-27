@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
@@ -11,11 +12,13 @@ import {
   type DataTableColumn,
 } from "@/src/components/data/data-table";
 import { Button } from "@/src/components/ui/button";
+
 import {
   Dialog,
   DialogContent,
   DialogFooter,
   DialogHeader,
+
   DialogTitle,
 } from "@/src/components/ui/dialog";
 import { useToast } from "@/src/components/ui/use-toast";
@@ -38,12 +41,15 @@ type DialogMode = "create" | "edit";
 const createDefaultValues = (): ExamFormValues => ({
   title: "",
   course_code: "",
+
   owner: 0,
   expected_students: 10,
   duration_minutes: 90,
   term: 0,
+
   notes: "",
 });
+
 
 const mapExamToValues = (exam: Exam): ExamFormValues => ({
   title: exam.title,
@@ -52,6 +58,7 @@ const mapExamToValues = (exam: Exam): ExamFormValues => ({
   expected_students: exam.expected_students,
   duration_minutes: exam.duration_minutes,
   term: exam.term,
+
   notes: exam.notes ?? "",
 });
 
@@ -180,6 +187,7 @@ export default function ExamsPage() {
           <Button size="sm" variant="outline" onClick={() => handleEdit(item)}>
             <Pencil className="ms-1 h-3.5 w-3.5" aria-hidden="true" />
             {t("actions.edit")}
+
           </Button>
           <Button
             size="sm"
@@ -188,6 +196,7 @@ export default function ExamsPage() {
             disabled={deleteMutation.isPending}
           >
             <Trash2 className="ms-1 h-3.5 w-3.5" aria-hidden="true" />
+
             {t("actions.delete")}
           </Button>
         </div>
@@ -196,16 +205,19 @@ export default function ExamsPage() {
     },
   ];
 
+
   return (
     <section className="space-y-6">
       <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="space-y-1">
+
           <h1 className="text-2xl font-bold text-foreground">{t("title")}</h1>
           <p className="text-sm text-muted-foreground">{t("description")}</p>
         </div>
         <Button onClick={handleCreate} className="self-start">
           <Plus className="ms-1 h-4 w-4" aria-hidden="true" />
           {t("actions.create")}
+
         </Button>
       </header>
       <DataTable
@@ -220,23 +232,28 @@ export default function ExamsPage() {
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent className="sm:max-w-xl">
           <DialogHeader>
+
             <DialogTitle>
               {dialogMode === "edit" ? t("actions.edit") : t("actions.create")}
             </DialogTitle>
+
           </DialogHeader>
           <form className="space-y-4" onSubmit={onSubmit}>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-1 sm:col-span-2">
+
                 <label className="text-sm font-medium text-foreground">
                   {t("form.title")}
                 </label>
                 <input
                   type="text"
                   {...form.register("title")}
+
                   disabled={isSubmitting}
                   className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
                 />
                 {form.formState.errors.title ? (
+
                   <p className="text-xs text-destructive">
                     {form.formState.errors.title.message}
                   </p>
@@ -249,13 +266,16 @@ export default function ExamsPage() {
                 <input
                   type="text"
                   {...form.register("course_code")}
+
                   disabled={isSubmitting}
                   className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
                 />
                 {form.formState.errors.course_code ? (
+
                   <p className="text-xs text-destructive">
                     {form.formState.errors.course_code.message}
                   </p>
+
                 ) : null}
               </div>
               <Controller
@@ -263,6 +283,7 @@ export default function ExamsPage() {
                 control={form.control}
                 render={({ field }) => (
                   <div className="space-y-1">
+
                     <label className="text-sm font-medium text-foreground">
                       {t("form.owner")}
                     </label>
@@ -271,27 +292,33 @@ export default function ExamsPage() {
                       onChange={(event) =>
                         field.onChange(Number(event.target.value))
                       }
+
                       disabled={isSubmitting || ownersQuery.isPending}
                       className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
                     >
                       <option value="" disabled>
                         —
                       </option>
+
                       {ownersQuery.data?.map((owner) => (
+
                         <option key={owner.id} value={owner.id}>
                           {owner.full_name}
                         </option>
                       ))}
                     </select>
                     {form.formState.errors.owner ? (
+
                       <p className="text-xs text-destructive">
                         {form.formState.errors.owner.message}
                       </p>
+
                     ) : null}
                   </div>
                 )}
               />
               <div className="space-y-1">
+
                 <label className="text-sm font-medium text-foreground">
                   {t("form.expectedStudents")}
                 </label>
@@ -301,10 +328,12 @@ export default function ExamsPage() {
                   {...form.register("expected_students", {
                     valueAsNumber: true,
                   })}
+
                   disabled={isSubmitting}
                   className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
                 />
                 {form.formState.errors.expected_students ? (
+
                   <p className="text-xs text-destructive">
                     {form.formState.errors.expected_students.message}
                   </p>
@@ -314,20 +343,25 @@ export default function ExamsPage() {
                 <label className="text-sm font-medium text-foreground">
                   {t("form.durationMinutes")}
                 </label>
+
                 <input
                   type="number"
                   min={10}
                   step={5}
+
                   {...form.register("duration_minutes", {
                     valueAsNumber: true,
                   })}
+
                   disabled={isSubmitting}
                   className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
                 />
                 {form.formState.errors.duration_minutes ? (
+
                   <p className="text-xs text-destructive">
                     {form.formState.errors.duration_minutes.message}
                   </p>
+
                 ) : null}
               </div>
               <Controller
@@ -335,6 +369,7 @@ export default function ExamsPage() {
                 control={form.control}
                 render={({ field }) => (
                   <div className="space-y-1">
+
                     <label className="text-sm font-medium text-foreground">
                       {t("form.term")}
                     </label>
@@ -343,44 +378,54 @@ export default function ExamsPage() {
                       onChange={(event) =>
                         field.onChange(Number(event.target.value))
                       }
+
                       disabled={isSubmitting || termsQuery.isPending}
                       className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
                     >
                       <option value="" disabled>
                         —
                       </option>
+
                       {termsQuery.data?.results?.map((term) => (
+
                         <option key={term.id} value={term.id}>
                           {term.name}
                         </option>
                       ))}
                     </select>
                     {form.formState.errors.term ? (
+
                       <p className="text-xs text-destructive">
                         {form.formState.errors.term.message}
                       </p>
+
                     ) : null}
                   </div>
                 )}
               />
               <div className="space-y-1 sm:col-span-2">
+
                 <label className="text-sm font-medium text-foreground">
                   {t("form.notes")}
                 </label>
                 <textarea
                   rows={3}
                   {...form.register("notes")}
+
                   disabled={isSubmitting}
                   className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
                 />
                 {form.formState.errors.notes ? (
+
                   <p className="text-xs text-destructive">
                     {form.formState.errors.notes.message}
                   </p>
+
                 ) : null}
               </div>
             </div>
             {form.formState.errors.root?.message ? (
+
               <p className="text-sm text-destructive">
                 {form.formState.errors.root.message}
               </p>
@@ -390,6 +435,7 @@ export default function ExamsPage() {
                 {dialogMode === "edit"
                   ? commonT("actions.save")
                   : commonT("actions.create")}
+
               </Button>
               <Button
                 type="button"
@@ -397,12 +443,16 @@ export default function ExamsPage() {
                 onClick={() => setDialogOpen(false)}
                 disabled={isSubmitting}
               >
+
                 {commonT("actions.cancel")}
+
               </Button>
             </DialogFooter>
           </form>
         </DialogContent>
       </Dialog>
     </section>
+
   );
+
 }

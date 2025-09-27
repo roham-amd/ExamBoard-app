@@ -4,10 +4,12 @@ The Next.js app proxies authentication requests to the Django REST Framework (DR
 
 ## Cookies
 
+
 | Cookie               | Description                                 | Max Age                                   | Notes                                            |
 | -------------------- | ------------------------------------------- | ----------------------------------------- | ------------------------------------------------ |
 | `exam_access_token`  | Short-lived JWT used for API requests       | 5 minutes (configurable via API response) | HttpOnly, `SameSite=Lax`, `Secure` in production |
 | `exam_refresh_token` | Refresh token for renewing the access token | 7 days (configurable via API response)    | HttpOnly, `SameSite=Lax`, `Secure` in production |
+
 
 When the DRF backend returns `access`, `refresh`, `access_expires_in`, or `refresh_expires_in` fields, the values override the default expirations.
 

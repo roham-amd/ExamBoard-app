@@ -1,3 +1,4 @@
+
 import { describe, expect, it } from "vitest";
 
 import { applyTimelineNudge, MIN_DURATION_MINUTES } from "../timeline-utils";
@@ -10,9 +11,11 @@ describe("applyTimelineNudge", () => {
     const start = new Date("2024-01-01T10:10:00Z");
     const end = new Date("2024-01-01T11:40:00Z");
 
+
     const result = applyTimelineNudge({
       start,
       end,
+
       kind: "move",
       deltaMinutes: 7,
       rangeStart,
@@ -27,9 +30,11 @@ describe("applyTimelineNudge", () => {
     const start = new Date("2024-01-01T10:00:00Z");
     const end = new Date("2024-01-01T10:20:00Z");
 
+
     const result = applyTimelineNudge({
       start,
       end,
+
       kind: "start",
       deltaMinutes: 30,
       rangeStart,
@@ -45,9 +50,11 @@ describe("applyTimelineNudge", () => {
     const start = new Date("2024-01-01T08:10:00Z");
     const end = new Date("2024-01-01T08:40:00Z");
 
+
     const result = applyTimelineNudge({
       start,
       end,
+
       kind: "start",
       deltaMinutes: -60,
       rangeStart,
@@ -57,3 +64,4 @@ describe("applyTimelineNudge", () => {
     expect(result.start.getTime()).toBe(rangeStart.getTime());
   });
 });
+

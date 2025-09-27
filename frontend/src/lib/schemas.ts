@@ -1,3 +1,4 @@
+
 import { z } from "zod";
 
 const isoDate = z
@@ -99,12 +100,14 @@ export const allocationFormSchema = z
     }
   });
 
+
 export const blackoutFormSchema = z
   .object({
     room: z.number().int().positive().nullable(),
     all_day: z.boolean().default(true),
     starts_at: isoDate,
     ends_at: isoDate,
+
     reason: z.string().min(3, "دلیل ممنوعیت حداقل سه نویسه باشد"),
   })
   .superRefine((values, ctx) => {
@@ -120,10 +123,12 @@ export const blackoutFormSchema = z
 export const holidayFormSchema = z
   .object({
     title: z.string().min(2, "عنوان مناسبت حداقل دو نویسه باشد"),
+
     all_day: z.boolean().default(true),
     starts_at: isoDate,
     ends_at: isoDate,
     room: z.number().int().positive().nullable(),
+
     description: z.string().optional(),
   })
   .superRefine((values, ctx) => {
@@ -136,9 +141,11 @@ export const holidayFormSchema = z
     }
   });
 
+
 export const publicExamFilterSchema = z.object({
   term: z.number().int().positive().optional(),
   date: isoDate.optional(),
+
   search: z.string().optional(),
 });
 
@@ -149,3 +156,4 @@ export type AllocationFormValues = z.infer<typeof allocationFormSchema>;
 export type BlackoutFormValues = z.infer<typeof blackoutFormSchema>;
 export type HolidayFormValues = z.infer<typeof holidayFormSchema>;
 export type PublicExamFilterValues = z.infer<typeof publicExamFilterSchema>;
+

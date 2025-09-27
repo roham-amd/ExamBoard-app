@@ -1,3 +1,4 @@
+
 import "@/src/styles/globals.css";
 import type { ReactNode } from "react";
 import { Vazirmatn } from "next/font/google";
@@ -14,9 +15,11 @@ export const metadata = {
   description: "University Exam Scheduling",
 };
 
+
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="fa" dir="rtl" suppressHydrationWarning>
+
       <body
         className={cn(
           vazirmatn.variable,
@@ -27,4 +30,5 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       </body>
     </html>
   );
+
 }

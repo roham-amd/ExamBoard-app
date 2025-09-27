@@ -25,12 +25,14 @@ Environment defaults keep the frontend and backend on the same origin, so CORS i
 
 ## Environment Variables
 
+
 | Variable                                                              | Service  | Description                                                 |
 | --------------------------------------------------------------------- | -------- | ----------------------------------------------------------- |
 | `NEXT_PUBLIC_API_BASE_URL`                                            | frontend | Points requests to the backend via `/api`.                  |
 | `FEATURE_REGISTER` / `FEATURE_PASSWORD_RESET`                         | frontend | Server-side toggles for optional auth features.             |
 | `NEXT_PUBLIC_FEATURE_REGISTER` / `NEXT_PUBLIC_FEATURE_PASSWORD_RESET` | frontend | Client-exposed mirrors (auto-populated from server values). |
 | `BACKEND_IMAGE`                                                       | compose  | Overrides the backend container image.                      |
+
 
 Create a `.env` file alongside `docker-compose.yml` to override defaults.
 

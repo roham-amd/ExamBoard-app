@@ -1,4 +1,5 @@
 export interface TimetableFilters {
+
   search: string;
   from: string | null;
   to: string | null;
@@ -83,3 +84,4 @@ export const createTimetableQuery = (
 
   return query;
 };
+
