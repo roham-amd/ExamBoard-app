@@ -1,4 +1,3 @@
-
 "use client";
 
 import type { ReactNode } from "react";
@@ -39,7 +38,6 @@ export function DataTable<T>({
     [error],
   );
 
-
   if (isLoading) {
     return (
       <div className="flex min-h-[12rem] items-center justify-center rounded-lg border bg-card/30">
@@ -50,14 +48,12 @@ export function DataTable<T>({
         </div>
       </div>
     );
-
   }
 
   if (errorContent) {
     return (
       <div className="flex flex-col items-center gap-3 rounded-lg border border-destructive/40 bg-destructive/10 p-6 text-center">
         <div>
-
           <p className="text-lg font-semibold text-destructive">
             {errorContent.title}
           </p>
@@ -72,33 +68,27 @@ export function DataTable<T>({
         ) : null}
       </div>
     );
-
   }
 
   if (!data || data.length === 0) {
     return (
       <div className="flex min-h-[12rem] items-center justify-center rounded-lg border border-dashed text-muted-foreground">
-
         <p>{t("empty")}</p>
       </div>
     );
-
   }
 
   return (
     <div className="space-y-3">
-
       {typeof total === "number" ? (
         <p className="text-sm text-muted-foreground">
           {t("total", { count: total })}
         </p>
-
       ) : null}
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-border rounded-lg border">
           <thead className="bg-muted/60 text-muted-foreground">
             <tr>
-
               {columns.map((column) => (
                 <th
                   key={column.header}
@@ -107,7 +97,6 @@ export function DataTable<T>({
                     "px-4 py-3 text-start text-xs font-medium uppercase tracking-wide",
                     column.className,
                   )}
-
                 >
                   {column.header}
                 </th>
@@ -120,12 +109,10 @@ export function DataTable<T>({
                 {columns.map((column, columnIndex) => (
                   <td
                     key={columnIndex}
-
                     className={cn(
                       "px-4 py-3 text-sm text-foreground",
                       column.className,
                     )}
-
                   >
                     <Fragment>{column.accessor(item)}</Fragment>
                   </td>
@@ -136,7 +123,5 @@ export function DataTable<T>({
         </table>
       </div>
     </div>
-
   );
-
 }

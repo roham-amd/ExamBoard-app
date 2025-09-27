@@ -1,4 +1,3 @@
-
 import { NextResponse, type NextRequest } from "next/server";
 
 import {
@@ -63,5 +62,4 @@ export async function POST(request: NextRequest) {
   const { access, refresh, ...rest } = (data ?? {}) as Record<string, unknown>;
 
   return NextResponse.json(rest, { status: upstream.status });
-
 }

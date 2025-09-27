@@ -1,4 +1,3 @@
-
 import { defineConfig } from "cypress";
 
 export default defineConfig({
@@ -10,4 +9,3 @@ export default defineConfig({
     screenshotOnRunFailure: false,
   },
 });
-

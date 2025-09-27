@@ -1,4 +1,3 @@
-
 import { getTranslations } from "next-intl/server";
 
 import { Button } from "@/src/components/ui/button";
@@ -9,11 +8,9 @@ export default async function DashboardPage() {
   const demoT = await getTranslations("demo");
   const now = dayjs().calendar("jalali").format("YYYY/MM/DD HH:mm");
 
-
   return (
     <div className="space-y-6">
       <header className="space-y-2">
-
         <h1 className="text-2xl font-bold tracking-tight">{t("title")}</h1>
         <p className="text-sm text-muted-foreground">{t("description")}</p>
       </header>
@@ -29,13 +26,11 @@ export default async function DashboardPage() {
             <p className="mt-2 text-2xl font-semibold text-foreground">
               {t(`cards.${key}.value`)}
             </p>
-
           </article>
         ))}
       </section>
       <section className="grid gap-4 rounded-lg border bg-card p-6 shadow-sm">
         <div>
-
           <h2 className="text-lg font-semibold text-foreground">
             {demoT("gridHeading")}
           </h2>
@@ -57,5 +52,4 @@ export default async function DashboardPage() {
       </section>
     </div>
   );
-
 }

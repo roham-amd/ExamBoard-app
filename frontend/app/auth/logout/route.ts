@@ -1,4 +1,3 @@
-
 import { NextResponse } from "next/server";
 
 import { clearAuthCookies, getRefreshToken } from "@/src/lib/auth-cookies";
@@ -58,5 +57,4 @@ export async function POST() {
   }
 
   return NextResponse.json({ success: true });
-
 }

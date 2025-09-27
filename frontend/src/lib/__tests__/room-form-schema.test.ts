@@ -1,4 +1,3 @@
-
 import { describe, expect, it } from "vitest";
 
 import { roomFormSchema } from "../schemas";
@@ -27,4 +26,3 @@ describe("roomFormSchema", () => {
     }
   });
 });
-

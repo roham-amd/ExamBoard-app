@@ -1,4 +1,3 @@
-
 import axios, { type AxiosError, type InternalAxiosRequestConfig } from "axios";
 
 import { toast } from "@/src/components/ui/use-toast";
@@ -46,11 +45,9 @@ const triggerRefresh = async () => {
   }
 };
 
-
 const enqueueRefresh = () => {
   if (!refreshPromise) {
     refreshPromise = triggerRefresh().finally(() => {
-
       refreshPromise = null;
     });
   }
@@ -84,4 +81,3 @@ api.interceptors.response.use(
 );
 
 export default api;
-

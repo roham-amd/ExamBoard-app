@@ -1,4 +1,3 @@
-
 import type { ClassValue } from "clsx";
 import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
@@ -27,5 +26,4 @@ export function formatJalaliDateTime(value?: string | null) {
   return instance.isValid()
     ? instance.calendar("jalali").locale("fa").format("YYYY/MM/DD HH:mm")
     : "";
-
 }

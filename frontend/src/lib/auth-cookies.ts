@@ -1,4 +1,3 @@
-
 import { cookies } from "next/headers";
 
 const isProd = process.env.NODE_ENV === "production";
@@ -42,7 +41,6 @@ export function parseTokenPayload(data: unknown): TokenPayload {
 export async function setAuthCookies(payload: TokenPayload) {
   const store = await cookies();
 
-
   if (payload.access) {
     store.set({
       name: ACCESS_TOKEN_COOKIE,
@@ -54,7 +52,6 @@ export async function setAuthCookies(payload: TokenPayload) {
       path: "/",
       maxAge: payload.access_expires_in ?? DEFAULT_ACCESS_MAX_AGE,
     });
-
   }
 
   if (payload.refresh) {
@@ -87,5 +84,4 @@ export async function clearAuthCookies() {
 export async function getRefreshToken() {
   const store = await cookies();
   return store.get(REFRESH_TOKEN_COOKIE)?.value;
-
 }

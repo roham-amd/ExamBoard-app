@@ -1,4 +1,3 @@
-
 import { z } from "zod";
 
 const isoDate = z
@@ -100,7 +99,6 @@ export const allocationFormSchema = z
     }
   });
 
-
 export const blackoutFormSchema = z
   .object({
     room: z.number().int().positive().nullable(),
@@ -141,7 +139,6 @@ export const holidayFormSchema = z
     }
   });
 
-
 export const publicExamFilterSchema = z.object({
   term: z.number().int().positive().optional(),
   date: isoDate.optional(),
@@ -156,4 +153,3 @@ export type AllocationFormValues = z.infer<typeof allocationFormSchema>;
 export type BlackoutFormValues = z.infer<typeof blackoutFormSchema>;
 export type HolidayFormValues = z.infer<typeof holidayFormSchema>;
 export type PublicExamFilterValues = z.infer<typeof publicExamFilterSchema>;
-

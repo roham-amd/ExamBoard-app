@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useTranslations } from "next-intl";
@@ -28,14 +27,11 @@ export default function PublicExamsPage() {
     { header: t("columns.location"), accessor: (item) => item.location },
   ];
 
-
   return (
     <section className="space-y-6">
       <header className="space-y-1">
-
         <h1 className="text-2xl font-bold text-foreground">{t("title")}</h1>
         <p className="text-sm text-muted-foreground">{t("description")}</p>
-
       </header>
       <DataTable
         data={data?.results}
@@ -46,7 +42,5 @@ export default function PublicExamsPage() {
         onRetry={() => refetch()}
       />
     </section>
-
   );
-
 }

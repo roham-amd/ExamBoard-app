@@ -1,4 +1,3 @@
-
 import { redirect } from "next/navigation";
 
 export default async function LocaleIndex({
@@ -8,5 +7,4 @@ export default async function LocaleIndex({
 }) {
   const { locale } = await params;
   redirect(`/${locale}/dashboard`);
-
 }

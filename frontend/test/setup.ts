@@ -1,4 +1,3 @@
-
 import "@testing-library/jest-dom/vitest";
 import React from "react";
 import { afterEach, vi } from "vitest";
@@ -9,7 +8,6 @@ afterEach(() => {
 });
 
 if (typeof window !== "undefined") {
-
   class ResizeObserver {
     observe() {}
     unobserve() {}
@@ -22,7 +20,6 @@ if (typeof window !== "undefined") {
 }
 
 vi.mock("next/navigation", () => ({
-
   useRouter: () => ({
     push: vi.fn(),
     replace: vi.fn(),
@@ -40,4 +37,3 @@ vi.mock("next/link", () => ({
   default: ({ children, href }: { children: React.ReactNode; href: string }) =>
     React.createElement("a", { href }, children),
 }));
-

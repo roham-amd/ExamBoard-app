@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
@@ -19,7 +18,6 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
-
   DialogTitle,
 } from "@/src/components/ui/dialog";
 import { useToast } from "@/src/components/ui/use-toast";
@@ -29,7 +27,6 @@ import {
   useCreateTermMutation,
   useDeleteTermMutation,
   usePublishTermMutation,
-
   useUpdateTermMutation,
 } from "@/src/lib/mutations";
 import { applyServerErrors } from "@/src/lib/forms";
@@ -58,7 +55,6 @@ const createDefaultValues = (): TermFormValues => {
     is_active: true,
   };
 };
-
 
 const mapTermToFormValues = (term: Term): TermFormValues => ({
   name: term.name,
@@ -187,7 +183,6 @@ export default function TermsPage() {
     {
       header: "",
       accessor: (item) => (
-
         <div className="flex items-center justify-end gap-2">
           {!item.published_at ? (
             <Button
@@ -199,14 +194,12 @@ export default function TermsPage() {
               <Rocket className="ms-1 h-3.5 w-3.5" aria-hidden="true" />
 
               {t("actions.publish")}
-
             </Button>
           ) : null}
           <Button size="sm" variant="outline" onClick={() => handleEdit(item)}>
             <Pencil className="ms-1 h-3.5 w-3.5" aria-hidden="true" />
 
             {t("actions.edit")}
-
           </Button>
           <Button
             size="sm"
@@ -226,19 +219,16 @@ export default function TermsPage() {
 
   const isPublished = Boolean(selectedTerm?.published_at);
 
-
   return (
     <section className="space-y-6">
       <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="space-y-1">
-
           <h1 className="text-2xl font-bold text-foreground">{t("title")}</h1>
           <p className="text-sm text-muted-foreground">{t("description")}</p>
         </div>
         <Button onClick={handleCreate} className="self-start">
           <Plus className="ms-1 h-4 w-4" aria-hidden="true" />
           {t("actions.create")}
-
         </Button>
       </header>
       <DataTable
@@ -254,28 +244,23 @@ export default function TermsPage() {
         <DialogContent className="sm:max-w-xl">
           <DialogHeader>
             <DialogTitle>
-
               {dialogMode === "edit" ? t("actions.edit") : t("actions.create")}
             </DialogTitle>
             <DialogDescription>{t("lockedHint")}</DialogDescription>
-
           </DialogHeader>
           <form className="space-y-4" onSubmit={onSubmit}>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-1">
-
                 <label className="text-sm font-medium text-foreground">
                   {t("form.name")}
                 </label>
                 <input
                   type="text"
                   {...form.register("name")}
-
                   disabled={isSubmitting || isPublished}
                   className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
                 />
                 {form.formState.errors.name ? (
-
                   <p className="text-xs text-destructive">
                     {form.formState.errors.name.message}
                   </p>
@@ -288,12 +273,10 @@ export default function TermsPage() {
                 <input
                   type="text"
                   {...form.register("slug")}
-
                   disabled={isSubmitting || isPublished}
                   className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
                 />
                 {form.formState.errors.slug ? (
-
                   <p className="text-xs text-destructive">
                     {form.formState.errors.slug.message}
                   </p>
@@ -305,17 +288,14 @@ export default function TermsPage() {
                 </label>
                 <textarea
                   {...form.register("description")}
-
                   disabled={isSubmitting}
                   rows={2}
                   className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
                 />
                 {form.formState.errors.description ? (
-
                   <p className="text-xs text-destructive">
                     {form.formState.errors.description.message}
                   </p>
-
                 ) : null}
               </div>
               <Controller
@@ -323,7 +303,6 @@ export default function TermsPage() {
                 control={form.control}
                 render={({ field }) => (
                   <div className="space-y-1">
-
                     <label className="text-sm font-medium text-foreground">
                       {t("form.startsAt")}
                     </label>
@@ -333,14 +312,12 @@ export default function TermsPage() {
                       onChange={(event) =>
                         field.onChange(parseDateTimeInput(event.target.value))
                       }
-
                       disabled={isSubmitting || isPublished}
                       dir="ltr"
                       className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
                     />
                     {field.value ? (
                       <p className="text-xs text-muted-foreground">
-
                         {commonT("dateHelper", {
                           value: formatJalaliDateTime(field.value),
                         })}
@@ -350,7 +327,6 @@ export default function TermsPage() {
                       <p className="text-xs text-destructive">
                         {form.formState.errors.starts_at.message}
                       </p>
-
                     ) : null}
                   </div>
                 )}
@@ -360,7 +336,6 @@ export default function TermsPage() {
                 control={form.control}
                 render={({ field }) => (
                   <div className="space-y-1">
-
                     <label className="text-sm font-medium text-foreground">
                       {t("form.endsAt")}
                     </label>
@@ -370,14 +345,12 @@ export default function TermsPage() {
                       onChange={(event) =>
                         field.onChange(parseDateTimeInput(event.target.value))
                       }
-
                       disabled={isSubmitting || isPublished}
                       dir="ltr"
                       className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
                     />
                     {field.value ? (
                       <p className="text-xs text-muted-foreground">
-
                         {commonT("dateHelper", {
                           value: formatJalaliDateTime(field.value),
                         })}
@@ -387,7 +360,6 @@ export default function TermsPage() {
                       <p className="text-xs text-destructive">
                         {form.formState.errors.ends_at.message}
                       </p>
-
                     ) : null}
                   </div>
                 )}
@@ -398,7 +370,6 @@ export default function TermsPage() {
                   type="checkbox"
                   className="h-4 w-4 rounded border-input"
                   disabled={isSubmitting || isPublished}
-
                   {...form.register("is_active")}
                 />
                 <label
@@ -406,12 +377,10 @@ export default function TermsPage() {
                   htmlFor="term-is-active"
                 >
                   {t("form.isActive")}
-
                 </label>
               </div>
             </div>
             {form.formState.errors.root?.message ? (
-
               <p className="text-sm text-destructive">
                 {form.formState.errors.root.message}
               </p>
@@ -421,7 +390,6 @@ export default function TermsPage() {
                 {dialogMode === "edit"
                   ? commonT("actions.save")
                   : commonT("actions.create")}
-
               </Button>
               <Button
                 type="button"
@@ -429,16 +397,12 @@ export default function TermsPage() {
                 onClick={() => setDialogOpen(false)}
                 disabled={isSubmitting}
               >
-
                 {commonT("actions.cancel")}
-
               </Button>
             </DialogFooter>
           </form>
         </DialogContent>
       </Dialog>
     </section>
-
   );
-
 }

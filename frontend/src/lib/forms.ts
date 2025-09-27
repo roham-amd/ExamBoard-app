@@ -1,4 +1,3 @@
-
 "use client";
 
 import axios from "axios";
@@ -57,5 +56,4 @@ export function applyServerErrors<TFieldValues extends FieldValues>(
   }
 
   return handled;
-
 }

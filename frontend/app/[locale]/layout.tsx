@@ -1,4 +1,3 @@
-
 import type { ReactNode } from "react";
 import { notFound } from "next/navigation";
 import { NextIntlClientProvider } from "next-intl";
@@ -41,7 +40,6 @@ export default async function LocaleLayout({
       messages={messages}
       timeZone="Asia/Tehran"
     >
-
       <QueryProvider>
         <AccessibilityProvider>
           <AppShell>{children}</AppShell>
@@ -49,7 +47,5 @@ export default async function LocaleLayout({
         </AccessibilityProvider>
       </QueryProvider>
     </NextIntlClientProvider>
-
   );
-
 }

@@ -1,4 +1,3 @@
-
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
@@ -53,12 +52,10 @@ describe("DataTable", () => {
   });
 
   it("renders rows with total count", () => {
-
     render(
       <DataTable<FakeRow>
         columns={columns}
         data={[
-
           { id: 1, name: "الف" },
           { id: 2, name: "ب" },
         ]}
@@ -71,4 +68,3 @@ describe("DataTable", () => {
     expect(screen.getByText("ب")).toBeInTheDocument();
   });
 });
-

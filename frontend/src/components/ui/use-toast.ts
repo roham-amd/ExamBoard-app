@@ -1,4 +1,3 @@
-
 "use client";
 
 import * as React from "react";
@@ -21,13 +20,11 @@ let toasts: Toast[] = [];
 function notify() {
   for (const listener of listeners) {
     listener([...toasts]);
-
   }
 }
 
 function addToast(toast: Toast) {
   if (toasts.length >= TOAST_LIMIT) {
-
     const [oldest] = toasts;
     dismissToast(oldest.id);
   }
@@ -39,12 +36,10 @@ function addToast(toast: Toast) {
       TOAST_REMOVE_DELAY,
     );
     toastTimeouts.set(toast.id, timeout);
-
   }
 }
 
 export function dismissToast(id: string) {
-
   toasts = toasts.filter((toast) => toast.id !== id);
   notify();
   const timeout = toastTimeouts.get(id);
@@ -79,5 +74,4 @@ export function toast({ title, description, action }: Omit<Toast, "id">) {
   const id = crypto.randomUUID();
   addToast({ id, title, description, action });
   return id;
-
 }

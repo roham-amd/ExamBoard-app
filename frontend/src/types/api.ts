@@ -1,5 +1,4 @@
 export interface PaginatedResponse<T> {
-
   count: number;
   next: string | null;
   previous: string | null;
@@ -180,5 +179,4 @@ export interface PublicTimetableResponse {
   rooms: PublicTimetableRoom[];
   allocations: PublicTimetableAllocation[];
   generated_at?: string;
-
 }

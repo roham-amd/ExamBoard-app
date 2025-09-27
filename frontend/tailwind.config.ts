@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 import tailwindcssAnimate from "tailwindcss-animate";
 import tailwindcssRtl from "tailwindcss-rtl";
@@ -72,4 +71,3 @@ const config: Config = {
 };
 
 export default config;
-

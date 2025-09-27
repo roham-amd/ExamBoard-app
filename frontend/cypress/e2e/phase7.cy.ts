@@ -1,6 +1,5 @@
 /// <reference types="cypress" />
 
-
 describe("Authentication flow", () => {
   it("surfaces server errors when login fails", () => {
     cy.intercept("POST", "/auth/login", (req) => {
@@ -21,7 +20,6 @@ describe("Authentication flow", () => {
 describe("Public timetable filters", () => {
   it("renders timetable data and filters by search term", () => {
     cy.intercept("GET", "/api/public/allocations*", {
-
       statusCode: 200,
       body: {
         results: [
@@ -170,4 +168,3 @@ describe("Dashboard exam and allocation flow", () => {
     cy.contains("ظرفیت کافی نیست.").should("be.visible");
   });
 });
-

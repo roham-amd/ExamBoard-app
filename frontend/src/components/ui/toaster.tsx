@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Button } from "./button";
@@ -49,7 +48,5 @@ export function Toaster({ rtl, className }: ToasterProps) {
       ))}
       <ToastViewport className={className} />
     </ToastProvider>
-
   );
-
 }

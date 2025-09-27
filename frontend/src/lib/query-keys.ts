@@ -5,7 +5,6 @@ import type {
   HolidayQueryParams,
   PublicExamQueryParams,
   RoomQueryParams,
-
   TermQueryParams,
 } from "@/src/types/api";
 
@@ -49,4 +48,3 @@ export const queryKeys = {
     list: (params?: PublicExamQueryParams) => withParams("publicExams", params),
   },
 } as const;
-

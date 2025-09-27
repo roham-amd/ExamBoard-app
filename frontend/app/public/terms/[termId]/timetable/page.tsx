@@ -1,4 +1,3 @@
-
 import { cache } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -52,7 +51,6 @@ export async function generateMetadata({
       title: `برنامهٔ امتحانات ترم ${data.term.name}`,
       description,
       alternates: {
-
         canonical: `/public/terms/${termId}/timetable`,
       },
       openGraph: {
@@ -78,7 +76,6 @@ export default async function PublicTimetablePage({
   const queryString = createTimetableQuery(filters).toString();
   const data = await fetchPublicTimetable(termId, queryString);
 
-
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
       <PublicTimetable
@@ -89,7 +86,5 @@ export default async function PublicTimetablePage({
         initialFilters={filters}
       />
     </div>
-
   );
-
 }

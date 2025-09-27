@@ -4,7 +4,6 @@
 
 Each resource is backed by a dedicated React Query hook found in `src/lib/queries.ts`.
 
-
 | Resource     | Hook                  | Query Key                         | Endpoint             |
 | ------------ | --------------------- | --------------------------------- | -------------------- |
 | Terms        | `useTermsQuery`       | `['terms', 'list', params]`       | `GET /terms/`        |

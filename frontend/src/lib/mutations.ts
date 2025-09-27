@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -13,7 +12,6 @@ import type {
   Room,
   Term,
   Exam,
-
   PaginatedResponse,
 } from "@/src/types/api";
 
@@ -23,12 +21,10 @@ import type {
   ExamFormValues,
   HolidayFormValues,
   RoomFormValues,
-
   TermFormValues,
 } from "@/src/lib/schemas";
 
 type Identifiable = { id: number };
-
 
 const prependItem = <T>(
   queryClient: ReturnType<typeof useQueryClient>,
@@ -48,7 +44,6 @@ const prependItem = <T>(
     });
   }
 };
-
 
 const replaceItem = <T extends Identifiable>(
   queryClient: ReturnType<typeof useQueryClient>,
@@ -71,7 +66,6 @@ const replaceItem = <T extends Identifiable>(
     });
   }
 };
-
 
 const removeItem = <T extends Identifiable>(
   queryClient: ReturnType<typeof useQueryClient>,
@@ -420,4 +414,3 @@ export const useDeleteHolidayMutation = () => {
     },
   });
 };
-

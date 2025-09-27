@@ -1,6 +1,4 @@
-
 "use client";
-
 
 import {
   DndContext,
@@ -10,7 +8,6 @@ import {
   useDraggable,
   useDroppable,
   useSensor,
-
   useSensors,
 } from "@dnd-kit/core";
 import {
@@ -45,7 +42,6 @@ import {
   snapDate,
   TimelineNudgeKind,
   TimelineRange,
-
   toIso,
 } from "./timeline-utils";
 import {
@@ -424,7 +420,6 @@ export function AllocationsTimeline() {
 
   const roomsQuery = useRoomsQuery({ page_size: 200 });
 
-
   const allocationParams = useMemo(
     () => ({
       page_size: 200,
@@ -489,7 +484,6 @@ export function AllocationsTimeline() {
     );
   }, [segments, selected]);
 
-
   const capacityQuery = useAllocationsQuery(
     activeSelection
       ? {
@@ -540,7 +534,6 @@ export function AllocationsTimeline() {
     [roomMap, segments],
   );
 
-
   const submitUpdate = useCallback(
     async (
       allocation: Allocation,
@@ -576,7 +569,6 @@ export function AllocationsTimeline() {
         ? existingIds.map((id) => (id === sourceRoomId ? targetRoomId : id))
         : [...existingIds, targetRoomId];
       const uniqueRooms = Array.from(new Set(updatedRooms));
-
 
       const payload = {
         exam: allocation.exam,
@@ -777,7 +769,6 @@ export function AllocationsTimeline() {
     [],
   );
 
-
   const handleNudge = useCallback(
     async (
       allocation: Allocation,
@@ -785,7 +776,6 @@ export function AllocationsTimeline() {
       kind: TimelineNudgeKind,
 
       deltaMinutes: number,
-
     ) => {
       const { start, end } = applyTimelineNudge({
         start: new Date(allocation.starts_at),
@@ -801,12 +791,10 @@ export function AllocationsTimeline() {
     [rangeEnd, rangeStart, submitUpdate],
   );
 
-
   return (
     <section className="space-y-4 rounded-lg border border-border bg-card p-4">
       <header className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <div>
-
           <h2 className="text-lg font-semibold text-foreground">
             {t("title")}
           </h2>
@@ -823,27 +811,22 @@ export function AllocationsTimeline() {
               type="datetime-local"
               className="rounded-md border border-input bg-background px-2 py-1 text-sm"
               value={formatDateTimeInput(rangeDraft.from)}
-
               onChange={(event) =>
                 handleRangeDraftChange("from", event.target.value)
               }
-
               dir="ltr"
             />
           </label>
           <label className="flex flex-col gap-1 text-xs text-muted-foreground">
-
             {t("toLabel")}
 
             <input
               type="datetime-local"
               className="rounded-md border border-input bg-background px-2 py-1 text-sm"
               value={formatDateTimeInput(rangeDraft.to)}
-
               onChange={(event) =>
                 handleRangeDraftChange("to", event.target.value)
               }
-
               dir="ltr"
             />
           </label>
@@ -851,27 +834,22 @@ export function AllocationsTimeline() {
             type="submit"
             className="rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground"
           >
-
             {t("applyRange")}
-
           </button>
         </form>
       </header>
 
       {warning ? (
-
         <div
           className="rounded-md border border-amber-400 bg-amber-50 p-3 text-sm text-amber-900"
           role="alert"
         >
-
           {warning}
         </div>
       ) : null}
 
       <div className="space-y-2">
         <div className="grid grid-cols-[120px_1fr] gap-2 text-xs font-medium text-muted-foreground">
-
           <span>{t("roomColumn")}</span>
           <div
             ref={timelineRef}
@@ -879,7 +857,6 @@ export function AllocationsTimeline() {
           >
             <div className="flex justify-between px-3 py-1">
               {timelineHours.map((label) => (
-
                 <span key={label} className="min-w-16 text-center">
                   {label}
                 </span>
@@ -890,7 +867,6 @@ export function AllocationsTimeline() {
 
         <DndContext
           sensors={sensors}
-
           modifiers={[
             restrictToFirstScrollableAncestor,
             restrictToParentElement,
@@ -911,7 +887,6 @@ export function AllocationsTimeline() {
                   containerWidth={timelineWidth}
                   selected={selected}
                   onSelect={handleSelect}
-
                   capacityLabel={t("capacityLabel", {
                     capacity: room.capacity,
                   })}
@@ -920,7 +895,6 @@ export function AllocationsTimeline() {
                   nudgeLabels={nudgeLabels}
                 />
               );
-
             })}
           </div>
         </DndContext>
@@ -930,7 +904,6 @@ export function AllocationsTimeline() {
         {activeSelection ? (
           <div className="space-y-2">
             <div>
-
               <h3 className="text-sm font-semibold text-foreground">
                 {t("meter.title")}
               </h3>
@@ -946,7 +919,6 @@ export function AllocationsTimeline() {
               <p className="text-xs text-muted-foreground">
                 {t("meter.empty")}
               </p>
-
             ) : (
               <div className="space-y-2">
                 <div className="h-2 w-full rounded-full bg-background">
@@ -956,18 +928,15 @@ export function AllocationsTimeline() {
                   />
                 </div>
                 <p className="text-xs text-muted-foreground">
-
                   {t("meter.usage", {
                     used: maxCapacityValue,
                     capacity: selectedRoomCapacity,
-
                   })}
                 </p>
               </div>
             )}
           </div>
         ) : (
-
           <p className="text-xs text-muted-foreground">
             {t("meter.placeholder")}
           </p>
@@ -976,4 +945,3 @@ export function AllocationsTimeline() {
     </section>
   );
 }
-
