@@ -12,7 +12,7 @@ import {
 } from '@dnd-kit/core'
 import { restrictToFirstScrollableAncestor, restrictToParentElement } from '@dnd-kit/modifiers'
 import type { CSSProperties, FormEvent } from 'react'
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useTranslations } from 'next-intl'
 
 import { useAllocationsQuery, useRoomsQuery } from '@/src/lib/queries'
@@ -20,6 +20,20 @@ import { useUpdateAllocationMutation } from '@/src/lib/mutations'
 import { useToast } from '@/src/components/ui/use-toast'
 import { resolveErrorContent } from '@/src/lib/api-error'
 import {
+  addMinutes,
+  applyTimelineNudge,
+  clampDate,
+  ensureMinimumDuration,
+  getDefaultRange,
+  MIN_DURATION_MINUTES,
+  rangeContains,
+  snapDate,
+  TimelineNudgeKind,
+  TimelineRange,
+  toIso
+} from './timeline-utils'
+import {
+
   formatDateTimeInput,
   formatJalaliDateTime,
   parseDateTimeInput
@@ -36,41 +50,12 @@ interface DragMetadata {
   originalEndsAt: string
 }
 
-interface TimelineRange {
-  from: string
-  to: string
-}
 
 interface CapacityPoint {
   time: Date
   value: number
 }
 
-const MIN_DURATION_MINUTES = 15
-
-const snapDate = (value: Date, minutes: number) => {
-  const snapMs = minutes * 60 * 1000
-  return new Date(Math.round(value.getTime() / snapMs) * snapMs)
-}
-
-const addMinutes = (date: Date, minutes: number) => new Date(date.getTime() + minutes * 60 * 1000)
-
-const rangeContains = (start: Date, end: Date, targetStart: Date, targetEnd: Date) =>
-  targetStart < end && targetEnd > start
-
-const toIso = (date: Date) => date.toISOString()
-
-const clampDate = (value: Date, min: Date, max: Date) =>
-  new Date(Math.min(Math.max(value.getTime(), min.getTime()), max.getTime()))
-
-const getDefaultRange = (): TimelineRange => {
-  const now = new Date()
-  const from = new Date(now)
-  from.setHours(8, 0, 0, 0)
-  const to = new Date(from)
-  to.setHours(20, 0, 0, 0)
-  return { from: from.toISOString(), to: to.toISOString() }
-}
 
 const useElementWidth = (ref: React.RefObject<HTMLElement>) => {
   const [width, setWidth] = useState(0)
@@ -91,6 +76,19 @@ const useElementWidth = (ref: React.RefObject<HTMLElement>) => {
   return width
 }
 
+interface TimelineNudgeLabels {
+  moveEarlier: string
+  moveLater: string
+  startEarlier: string
+  startLater: string
+  endEarlier: string
+  endLater: string
+  keyboardHint: string
+}
+
+type TimelineItemNudgeHandler = (kind: TimelineNudgeKind, deltaMinutes: number) => void
+
+
 interface TimelineItemProps {
   allocation: Allocation
   room: AllocationRoomSummary
@@ -99,16 +97,22 @@ interface TimelineItemProps {
   containerWidth: number
   isSelected: boolean
   onSelect: () => void
+  onNudge: TimelineItemNudgeHandler
+  nudgeLabels: TimelineNudgeLabels
 }
 
-const TimelineItem = ({
+const TimelineItem = memo(({
+
   allocation,
   room,
   rangeStart,
   rangeEnd,
   containerWidth,
   isSelected,
-  onSelect
+  onSelect,
+  onNudge,
+  nudgeLabels
+
 }: TimelineItemProps) => {
   const totalMs = rangeEnd.getTime() - rangeStart.getTime()
   const allocationStart = new Date(allocation.starts_at)
@@ -191,6 +195,78 @@ const TimelineItem = ({
       <span className="text-muted-foreground">
         {formatJalaliDateTime(allocation.ends_at)}
       </span>
+      {isSelected ? (
+        <div className="mt-2 flex flex-wrap gap-1" aria-label={nudgeLabels.keyboardHint}>
+          <p className="sr-only">{nudgeLabels.keyboardHint}</p>
+          <button
+            type="button"
+            className="rounded-md border border-border bg-background/80 px-2 py-1 text-[0.7rem] text-foreground shadow-sm transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary"
+            onClick={event => {
+              event.stopPropagation()
+              void onNudge('move', -5)
+            }}
+            onPointerDown={event => event.stopPropagation()}
+          >
+            {nudgeLabels.moveEarlier}
+          </button>
+          <button
+            type="button"
+            className="rounded-md border border-border bg-background/80 px-2 py-1 text-[0.7rem] text-foreground shadow-sm transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary"
+            onClick={event => {
+              event.stopPropagation()
+              void onNudge('move', 5)
+            }}
+            onPointerDown={event => event.stopPropagation()}
+          >
+            {nudgeLabels.moveLater}
+          </button>
+          <button
+            type="button"
+            className="rounded-md border border-border bg-background/80 px-2 py-1 text-[0.7rem] text-foreground shadow-sm transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary"
+            onClick={event => {
+              event.stopPropagation()
+              void onNudge('start', -15)
+            }}
+            onPointerDown={event => event.stopPropagation()}
+          >
+            {nudgeLabels.startEarlier}
+          </button>
+          <button
+            type="button"
+            className="rounded-md border border-border bg-background/80 px-2 py-1 text-[0.7rem] text-foreground shadow-sm transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary"
+            onClick={event => {
+              event.stopPropagation()
+              void onNudge('start', 15)
+            }}
+            onPointerDown={event => event.stopPropagation()}
+          >
+            {nudgeLabels.startLater}
+          </button>
+          <button
+            type="button"
+            className="rounded-md border border-border bg-background/80 px-2 py-1 text-[0.7rem] text-foreground shadow-sm transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary"
+            onClick={event => {
+              event.stopPropagation()
+              void onNudge('end', -15)
+            }}
+            onPointerDown={event => event.stopPropagation()}
+          >
+            {nudgeLabels.endEarlier}
+          </button>
+          <button
+            type="button"
+            className="rounded-md border border-border bg-background/80 px-2 py-1 text-[0.7rem] text-foreground shadow-sm transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary"
+            onClick={event => {
+              event.stopPropagation()
+              void onNudge('end', 15)
+            }}
+            onPointerDown={event => event.stopPropagation()}
+          >
+            {nudgeLabels.endLater}
+          </button>
+        </div>
+      ) : null}
+
       <div
         ref={startHandle.setNodeRef}
         {...startHandle.listeners}
@@ -211,7 +287,10 @@ const TimelineItem = ({
       </div>
     </div>
   )
-}
+})
+
+TimelineItem.displayName = 'TimelineItem'
+
 
 interface RoomLaneProps {
   room: Room
@@ -223,9 +302,17 @@ interface RoomLaneProps {
   onSelect: (selection: { allocationId: number; roomId: number }) => void
   capacityLabel: string
   emptyText: string
+  onNudge: (
+    allocation: Allocation,
+    roomId: number,
+    kind: TimelineNudgeKind,
+    deltaMinutes: number
+  ) => void | Promise<void>
+  nudgeLabels: TimelineNudgeLabels
 }
 
-const RoomLane = ({
+const RoomLane = memo(({
+
   room,
   segments,
   rangeStart,
@@ -234,7 +321,10 @@ const RoomLane = ({
   selected,
   onSelect,
   capacityLabel,
-  emptyText
+  emptyText,
+  onNudge,
+  nudgeLabels
+
 }: RoomLaneProps) => {
   const { setNodeRef } = useDroppable({ id: `room-${room.id}` })
   return (
@@ -259,12 +349,18 @@ const RoomLane = ({
               selected?.allocationId === segment.allocation.id && selected?.roomId === segment.room.id
             }
             onSelect={() => onSelect({ allocationId: segment.allocation.id, roomId: segment.room.id })}
+            onNudge={(kind, delta) => void onNudge(segment.allocation, segment.room.id, kind, delta)}
+            nudgeLabels={nudgeLabels}
+
           />
         ))}
       </div>
     </div>
   )
-}
+})
+
+RoomLane.displayName = 'RoomLane'
+
 
 export function AllocationsTimeline() {
   const t = useTranslations('allocations.timeline')
@@ -312,6 +408,20 @@ export function AllocationsTimeline() {
     return items
   }, [allocationsQuery.data])
 
+  const segmentsByRoom = useMemo(() => {
+    const map = new Map<number, Array<{ allocation: Allocation; room: AllocationRoomSummary }>>()
+    segments.forEach(segment => {
+      const existing = map.get(segment.room.id)
+      if (existing) {
+        existing.push(segment)
+        return
+      }
+      map.set(segment.room.id, [segment])
+    })
+    return map
+  }, [segments])
+
+
   const activeSelection = useMemo(() => {
     if (!selected) return null
     return segments.find(
@@ -343,13 +453,6 @@ export function AllocationsTimeline() {
     [timelineWidth, rangeEnd, rangeStart]
   )
 
-  const ensureMinimumDuration = (start: Date, end: Date) => {
-    const minEnd = addMinutes(start, MIN_DURATION_MINUTES)
-    if (end <= minEnd) {
-      return { start, end: minEnd }
-    }
-    return { start, end }
-  }
 
   const calculateCapacityEstimate = useCallback(
     (allocation: Allocation, roomId: number, startsAt: Date, endsAt: Date) => {
@@ -551,6 +654,44 @@ export function AllocationsTimeline() {
     setRangeDraft(prev => ({ ...prev, [key]: parseDateTimeInput(value) }))
   }
 
+  const nudgeLabels = useMemo(
+    () => ({
+      moveEarlier: t('nudge.moveEarlier'),
+      moveLater: t('nudge.moveLater'),
+      startEarlier: t('nudge.startEarlier'),
+      startLater: t('nudge.startLater'),
+      endEarlier: t('nudge.endEarlier'),
+      endLater: t('nudge.endLater'),
+      keyboardHint: t('nudge.keyboardHint')
+    }),
+    [t]
+  )
+
+  const handleSelect = useCallback((selection: { allocationId: number; roomId: number }) => {
+    setSelected(selection)
+  }, [])
+
+  const handleNudge = useCallback(
+    async (
+      allocation: Allocation,
+      roomId: number,
+      kind: TimelineNudgeKind,
+      deltaMinutes: number
+    ) => {
+      const { start, end } = applyTimelineNudge({
+        start: new Date(allocation.starts_at),
+        end: new Date(allocation.ends_at),
+        kind,
+        deltaMinutes,
+        rangeStart,
+        rangeEnd
+      })
+      await submitUpdate(allocation, roomId, roomId, start, end)
+    },
+    [rangeEnd, rangeStart, submitUpdate]
+  )
+
+
   return (
     <section className="space-y-4 rounded-lg border border-border bg-card p-4">
       <header className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
@@ -615,7 +756,8 @@ export function AllocationsTimeline() {
         >
           <div className="grid grid-cols-[120px_1fr] gap-2">
             {rooms.map(room => {
-              const roomSegments = segments.filter(segment => segment.room.id === room.id)
+              const roomSegments = segmentsByRoom.get(room.id) ?? []
+
               return (
                 <RoomLane
                   key={room.id}
@@ -625,9 +767,11 @@ export function AllocationsTimeline() {
                   rangeEnd={rangeEnd}
                   containerWidth={timelineWidth}
                   selected={selected}
-                  onSelect={setSelected}
+                  onSelect={handleSelect}
                   capacityLabel={t('capacityLabel', { capacity: room.capacity })}
                   emptyText={t('emptyRow')}
+                  onNudge={handleNudge}
+                  nudgeLabels={nudgeLabels}
                 />
               )
             })}

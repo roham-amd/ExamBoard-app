@@ -7,7 +7,10 @@
     "build": "next build",
     "start": "next start -p 3000",
     "lint": "next lint",
-    "test": "echo \"(add vitest later)\" && exit 0"
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "cypress run"
+
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
@@ -31,18 +34,27 @@
     "@hookform/resolvers": "^3.7.0",
     "tailwind-merge": "^2.5.3",
     "zod": "^3.23.8",
-    "zustand": "^4.5.5"
+    "zustand": "^4.5.5",
+    "@axe-core/react": "^4.9.1"
+
   },
   "devDependencies": {
     "@types/node": "24.5.2",
     "@types/react": "19.1.14",
     "autoprefixer": "^10.4.20",
+    "cypress": "^13.13.2",
     "eslint": "^9.12.0",
     "eslint-config-next": "15.0.0",
+    "jsdom": "^25.0.0",
     "postcss": "^8.4.47",
     "tailwindcss": "^3.4.10",
     "tailwindcss-animate": "^1.0.7",
     "tailwindcss-rtl": "^0.9.0",
-    "typescript": "^5.6.2"
+    "typescript": "^5.6.2",
+    "@testing-library/react": "^16.0.1",
+    "@testing-library/user-event": "^14.5.2",
+    "@testing-library/jest-dom": "^6.5.0",
+    "@vitejs/plugin-react": "^4.3.2",
+    "vitest": "^2.1.1"
   }
 }

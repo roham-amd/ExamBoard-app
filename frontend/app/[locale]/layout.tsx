@@ -4,6 +4,7 @@ import { NextIntlClientProvider } from 'next-intl'
 import { getMessages, unstable_setRequestLocale } from 'next-intl/server'
 
 import { AppShell } from '@/src/components/layout/app-shell'
+import { AccessibilityProvider } from '@/src/components/providers/a11y-provider'
 import { QueryProvider } from '@/src/components/providers/query-provider'
 import { locales, type Locale } from '@/src/i18n/config'
 import { Toaster } from '@/src/components/ui/toaster'
@@ -30,8 +31,10 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
   return (
     <NextIntlClientProvider locale={locale} messages={messages} timeZone="Asia/Tehran">
       <QueryProvider>
-        <AppShell>{children}</AppShell>
-        <Toaster rtl />
+        <AccessibilityProvider>
+          <AppShell>{children}</AppShell>
+          <Toaster rtl />
+        </AccessibilityProvider>
       </QueryProvider>
     </NextIntlClientProvider>
   )
